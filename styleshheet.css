@@ -1,0 +1,176 @@
+@font-face {
+    font-family: "dm_sans";
+    font-style: normal;
+    font-weight: bold;
+    src: url("assets/fonts/dm_sans/DMSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "roboto";
+    font-style: normal;
+    font-weight: normal;
+    src: url("assets/fonts/roboto/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: "lato_regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("assets/fonts/lato/Lato-Regular.ttf");
+}
+
+@font-face {
+    font-family: "lato_bold";
+    font-style: normal;
+    font-weight: bold;
+    src: url("assets/fonts/lato/Lato-Bold.ttf");
+}
+
+
+header{
+    margin-top: 2%;
+  }
+  .title {
+    font-family: "dm_sans";
+    color: #D04F4F;
+  }
+  
+  .icon_title{
+    color: #D04F4F;
+    font-size:42px;
+  }
+  
+  main{
+    margin-top:5%;
+  }
+  
+  #search_bar{
+    background-color: #E7E7E7;
+    border: none;
+  }
+  
+  #search_bar:focus, #search_bar:active {
+    box-shadow : none;
+  }
+  
+  #search_bar::placeholder{
+    color: black;
+    opacity: 25%;
+    font-size: 18px;
+    font-family: "lato_regular"!important;
+  }
+  
+  .search_button{
+    background-color: #E7E7E7 !important;
+    border: none !important;
+  }
+  
+  .text-icon{
+    color: blacK;
+    font-size: 18px;
+  }
+  
+  #search_and_select{
+    display: flex;
+    flex-direction: row;
+    margin-top:2%;
+  }
+  
+  .button_select{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 170px;
+    height: 69px;
+    color: white;
+    border-radius: 5px; 
+    font-size: 18px;
+    font-family: "lato_bold"!important; 
+    padding: 2%;
+  }
+
+  .icon_btn {
+   -webkit-text-stroke: 2px;
+  }
+  
+  
+  
+  #select_ingredients{
+    background-color:#3282F7;
+    margin-right: 2%;
+  }
+  
+  #select_appareil{
+    
+    background-color:#68D9A4;
+    margin-right: 2%;
+  }
+  
+  #select_unstensils{
+     background-color:#ED6454;
+  }
+  
+  #recipes_wrap{
+    margin-top : 5%;
+    padding-left:1%;
+    padding-right: 1%; 
+  }
+  
+  .card_custom{
+    padding: 0 !important;
+    font-family:"lato_regular";
+    margin-bottom: 5%;
+     background-color:#E7E7E7 !important;
+     border: none !important;
+  }
+  
+  .img_custom{
+    width: 100%;
+    height:178px;
+    background-color:#C7BEBE; 
+  }
+  
+  .card_title {
+   display: flex;
+   justify-content: space-between;
+   font-size: 18px;
+   margin: 0 !important;
+   width: 100%;
+  }
+
+  .recipe_name{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 210px;
+  }
+  
+  .minute{
+    margin-left: 7px;
+    font-style: normal;
+  }
+  
+  ul{
+   list-style: none; 
+  }
+  
+  #card_content {
+    font-size: 12px;
+    margin-top:20px;
+    height: 171px;
+   
+  }
+  
+  #card_content:nth-child{
+    width: 50%;
+  }
+
+  #text_in_card{
+      text-align: justify;
+      max-height: 95%;
+      display: -webkit-box;   
+      -webkit-line-clamp: 9;   
+      -webkit-box-orient: vertical;     
+      overflow: hidden;
+  }
+
