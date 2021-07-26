@@ -77,28 +77,47 @@ header{
   }
   
   .button_select{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 170px;
-    height: 69px;
     color: white;
     border-radius: 5px; 
     font-size: 18px;
     font-family: "lato_bold"!important; 
-    padding: 2%;
+    padding: 1.6%;
+  }
+
+  .button_select > span{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .icon_btn {
    -webkit-text-stroke: 2px;
   }
   
-  
+  .search_and_select_buttons {
+      width: 110px;
+      background-color: transparent;
+      border-style: none;
+      color: white;
+  }
+
+  .search_and_select_buttons::placeholder{
+      font-family: "lato_bold"!important;
+      color: white !important;
+      font-size: 18px;
+  }
+
+
+  .search_and_select_buttons:focus{
+      outline: none;
+  }
   
   #select_ingredients{
     background-color:#3282F7;
     margin-right: 2%;
   }
+
+  
   
   #select_appareil{
     

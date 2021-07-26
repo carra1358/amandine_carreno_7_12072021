@@ -2,19 +2,22 @@
 const recipeCardTemplate = document.getElementById("recipes_wrap");
 const searchBar = document.getElementById("search_bar");
 const card = recipeCardTemplate.querySelectorAll(".card");
+const searchAndSelect = document.getElementById("search_and_select");
+const advanceSearchResultsIngredients = document.getElementById("search_and_select_ingredients_results");
+const advanceSearchResultsAppliance = document.getElementById("search_and_select_appareil_results");
+const advanceSearchResultsUstensils = document.getElementById("search_and_select_ustensils_results");
 // Fetch 
 fetch("./recipes.json")
 .then(resp => resp.json())
 .then((recipesJson) => {
   const allRecipes = recipesJson.recipes;
   console.log(allRecipes);
-  let lokkingForIng = allRecipes.map(recipes => recipes.ingredients.map(ingredient => ingredient.ingredient.toLowerCase().split(" ")));
-  console.log(lokkingForIng)
+
  let renderAll = allRecipes.forEach(el => {
       renderCards(el);
   });
 
-  searchBar.addEventListener("keyup", e => {
+  searchBar.addEventListener("input", e => {
     const input = e.target.value.toLowerCase();
     console.log(input)
     setTimeout(()=> {
@@ -23,16 +26,47 @@ fetch("./recipes.json")
                 const result = allRecipes.filter(r =>  
                     r.name.toLowerCase().includes(input) || r.description.toLowerCase().split(" ").includes(input) || r.ingredients.map(i => i.ingredient.toLowerCase()).includes(input));
                renderAll = recipeCardTemplate.innerHTML = "";
-               let newResult = [];
-               let ingredientsResult = result.map(r => r.ingredients.map(ingredients => ingredients.ingredient));
-               console.log(newResult.concat(...ingredientsResult));
+               let newResultIngredients = [];
+               let newResultAppliance = [];
+               let newResultUstensils = [];
+
+               // recupère les données des champs avancés
+               let ingredientsResult = result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
+               let applianceResult = result.map(r => r.appliance);
+               let ustensilsResult = result.map(r => r.ustensils);
+
+               // fait une liste aux valeurs uniques
+               
+               newResultAppliance = newResultAppliance.concat(...applianceResult);
+               newResultAppliance = new Set ([...newResultAppliance]);
+               newResultAppliance = [...newResultAppliance];
+
+               newResultUstensils = newResultUstensils.concat(...ustensilsResult);
+               newResultUstensils = new Set ([...newResultUstensils]);
+               newResultUstensils = [...newResultUstensils];
+
+
+               newResultIngredients = newResultIngredients.concat(...ingredientsResult);
+               newResultIngredients = new Set([...newResultIngredients]);
+               newResultIngredients = [...newResultIngredients];
+               
+              
+               
+               console.log(newResultAppliance);
+               advanceSearchResultsAppliance.innerHTML = "";
+               advanceSearchResultsAppliance.innerHTML += `${newResultAppliance.map(a => `<li>${a}</li>`).join("")}`
+               advanceSearchResultsIngredients.innerHTML = "";
+               advanceSearchResultsIngredients.innerHTML += `${newResultIngredients.map(r => `<li>${r}</li>`).join("")}`
+               advanceSearchResultsUstensils.innerHTML = "";
+               advanceSearchResultsUstensils.innerHTML += `${newResultUstensils.map(u => `<li>${u}</li>`).join("")}`
+               
                return renderAll = result.forEach(el => renderCards(el));
               }else{
                   renderAll = recipeCardTemplate.innerHTML = "Aucun résultat à votre recherche";
               }
 
         
-    },500)
+    },350)
  
 
    
