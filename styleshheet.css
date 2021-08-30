@@ -33,6 +33,7 @@
     src: url("assets/fonts/lato/Lato-Light.ttf");
 }
 
+@import url("stylesheet.scss");
 
 header{
     margin-top: 2%;
@@ -79,9 +80,6 @@ header{
   }
   
   #search_and_select{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
     margin-top:2%;
   }
   
@@ -105,18 +103,33 @@ header{
 
   .icon_btn {
    -webkit-text-stroke: 2px;
+   background-color: transparent;
+   border: none;
+   color: white;
+
   }
   
   .search_and_select_buttons {
-      width: 110px;
       background-color: transparent;
       border-style: none;
       color: white;
+
+  }
+
+  #buttons_container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .top_button{
+    display: flex;
+    flex-direction: row;
   }
 
   .search_and_select_buttons::placeholder{
       font-family: "lato_bold"!important;
-      color: white !important;
+      color: white;
       font-size: 18px;
   }
 
@@ -129,6 +142,9 @@ header{
     cursor: pointer;
     background-color:#3282F7;
     margin-right: 2%;
+    border: none;
+    border-radius: 5px;
+    padding: 2%;
   }
 
   
@@ -141,42 +157,89 @@ header{
   #select_unstensils{
      background-color:#ED6454;
   }
+  
+
 
   .advance_search_results{
+    position: static !important;
+    background: transparent !important;
+    border:none !important;
       max-height: 350px;
       font-family: "lato_light";
       margin : 0;
       padding: 0;
+      overflow: hidden;
   }
 
   .advance_search_results > li {
-      overflow: hidden;
+    display: inline;
+    font-family: "lato_bold"!important;
       margin-top: 10px;
+      color: white;
+      float: left;
+      width: 50%;
   }
 
+  #tags{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0;
+    height: 40px;
+  }
+
+  .tag{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 107px;
+    height: 37px;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .tag_i{
+    background-color: #3282F7;
+  }
+
+  .tag_a{
+    background-color:#68D9A4
+  }
+
+  .tag_u{
+    background-color:#ED6454;
+  }
+
+  
+
   .open{
-     width: 667px;
+     width: 300px;
   }
 
   .open::placeholder{
       font-family:"lato_regular";
+      color: white;
       font-weight: 400;
       opacity: 50%;
   }
   
   #recipes_wrap{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
     margin-top : 5%;
-    padding-left:1%;
-    padding-right: 1%; 
     z-index: 1;
     position: absolute;
-    top: 40%;
+    top: 47%;
   }
   
   .card_custom{
     padding: 0 !important;
     font-family:"lato_regular";
     margin-bottom: 5%;
+    margin-right: 5%;
+    padding-left:1%;
+    padding-right: 1%; 
      background-color:#E7E7E7 !important;
      border: none !important;
   }
