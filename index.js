@@ -1,8 +1,6 @@
 //DOM
 const recipeCardTemplate = document.getElementById("recipes_wrap");
 const searchBar = document.getElementById("search_bar");
-const card = recipeCardTemplate.querySelectorAll(".card");
-const searchAndSelect = document.getElementById("search_and_select");
 const advanceSearchResultsIngredients = document.getElementById("search_and_select_ingredients_results");
 const advanceSearchResultsAppliance = document.getElementById("search_and_select_appareil_results");
 const advanceSearchResultsUstensils = document.getElementById("search_and_select_ustensils_results");
@@ -28,7 +26,8 @@ const data = recipesJSON.recipes;
 class Filter {
     constructor(data){
         this.recipes = data;
-        this.ingredients = [];
+        this.ingredients = [...this.i];
+        
         this.selectedIngredients = [];
         this.selectedAppliances = [];
         this.selectedUstensils = [];
@@ -38,6 +37,14 @@ class Filter {
         this.tagResult= [];
         this.result = [];
     }
+  
+get i (){
+    let i = this.recipes.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
+    i = i.reduce(function(a,b){ return [...a,...b]});
+    i = new Set([...i])
+    this.ingredients = [...i];
+  return this.ingredients
+}
 
 filterWithSearchBar(query){
    this.query = query;
@@ -45,7 +52,9 @@ filterWithSearchBar(query){
 
        if(this.query.length >= 3){
         this.result = this.recipes.filter((r) =>  
-         r.name.toLowerCase().includes(query) || r.description.toLowerCase().split(" ").includes(query)// manque pour les ingrédients: n'arrive pas a accéder [obj.value]
+        r.name.toLowerCase().includes(query) || r.description.toLowerCase().split(" ").includes(query) 
+        // || Object.values(this.ingredients).includes(query) ou r.ingredients.map(i => i.values(ingredient).includes(query))
+          
              );
 
            if(this.result.length > 0){
@@ -71,7 +80,7 @@ filterWithAdvancesdSearchBar(arr,requete){
      return arr.filter(el =>  el.toLowerCase().indexOf(requete.toLowerCase()) !== -1);
 }
 
-addOrRemoveUstensils(){}
+
 
 addOrRemoveAppliance(tagName){
 
@@ -204,10 +213,12 @@ addOrRemoveIngredient(tagName){
           
         })
     
-        let newI = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
-        newI = newI.reduce(function(a,b){ return [...a,...b]});
+        this.ingredients = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
+        /*newI = newI.reduce(function(a,b){ return [...a,...b]});
         newI = new Set([...newI])
        this.ingredients = [...newI];
+       this.ingredients = this.ingredients.filter( x => !this.selectedIngredients.includes(x));*/
+    
        this.ingredients = this.ingredients.filter( x => !this.selectedIngredients.includes(x));
 
        }
@@ -226,10 +237,10 @@ addOrRemoveIngredient(tagName){
       
     })
 
-    let newI = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
-    newI = newI.reduce(function(a,b){ return [...a,...b]});
+    this.ingredients = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
+    /*newI = newI.reduce(function(a,b){ return [...a,...b]});
     newI = new Set([...newI])
-   this.ingredients = [...newI];
+   this.ingredients = [...newI];*/
    this.ingredients = this.ingredients.filter( x => !this.selectedIngredients.includes(x));
 
     }
@@ -243,8 +254,8 @@ addOrRemoveIngredient(tagName){
 
 const filter = new Filter(data);
 
-
-renderAll = data.forEach(el => {
+console.log(filter.ingredients)
+ data.forEach(el => {
     renderCards(el);
 });
 
@@ -253,6 +264,11 @@ function getTagsIngredient(){
         
         el.addEventListener("click", e => {      
         const nameTag = e.target.textContent;
+        if(filter.result.length == 0){
+            filter.filterWithSearchBar(nameTag)
+            console.log(nameTag)
+            console.log(filter.result)
+        }
          filter.addOrRemoveIngredient(nameTag);
          advanceSearchResultsIngredients.innerHTML = "";
         renderAll = recipeCardTemplate.innerHTML = "";
@@ -262,6 +278,7 @@ function getTagsIngredient(){
      el.addEventListener("click", ()=> {
          const s = el.getAttribute("data-tag");
          filter.addOrRemoveIngredient(s);
+         console.log(filter.result)
          tags.removeChild(el);
          renderAll = recipeCardTemplate.innerHTML = "";
          renderAll = filter.result.forEach(el => renderCards(el));
@@ -275,10 +292,10 @@ function getTagsIngredient(){
         })
     })
     
-};
+}
 function getTagsUstensils(){
     advanceSearchResultsUstensils.querySelectorAll(".add_tag").forEach(el => {
-        
+
         el.addEventListener("click", e => {      
         const nameTag = e.target.textContent;
          filter.addOrRemoveUstensils(nameTag);
@@ -305,7 +322,7 @@ function getTagsUstensils(){
  
  })
 
-};
+}
 function getTagsAppliances(){
     advanceSearchResultsAppliance.querySelectorAll(".add_tag").forEach(el => {
     
@@ -335,15 +352,15 @@ function getTagsAppliances(){
  
  })
 
-};
+}
 
 
 
 advanceSearchByIngredients.addEventListener("input",e => {
     const input = e.target.value.toLowerCase().trim();
     const i = filter.ingredients;
+    const r = filter.recipes;
     const result = filter.filterWithAdvancesdSearchBar(i,input);
-   
     advanceSearchResultsIngredients.innerHTML = "";
     advanceSearchResultsIngredients.innerHTML += `${result.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
    getTagsIngredient();
