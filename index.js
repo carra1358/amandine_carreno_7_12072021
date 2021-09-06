@@ -24,7 +24,6 @@ fetch("./recipes.json")
 .then((recipesJSON) => {
 
 const data = recipesJSON.recipes;
-let renderAll;
 
 class Filter {
     constructor(data){
@@ -63,7 +62,7 @@ filterWithSearchBar(query){
                this.ustensils = this.ustensils.reduce(function(a,b){ return [...a,...b]});
                this.ustensils = new Set([...this.ustensils]);
                this.ustensils = [...this.ustensils];
-               console.log(this.ustensils)
+              
            }
             
        }
@@ -75,8 +74,7 @@ filterWithAdvancesdSearchBar(arr,requete){
 addOrRemoveUstensils(){}
 
 addOrRemoveAppliance(tagName){
-console.log(this.result)
-console.log(tagName)
+
 if(this.selectedAppliances.includes(tagName)){
     this.selectedAppliances = this.selectedAppliances.filter(t => t !== tagName);
     this.appliances.push(tagName);
@@ -93,20 +91,15 @@ if(this.selectedAppliances.includes(tagName)){
     
 }else{
     this.selectedAppliances.push(tagName);
-    console.log(this.result)
+   
     this.result = this.result.filter(r => {
-
-     console.log(r.appliance, this.selectedAppliances);
+     
     const t = r.appliance.toLowerCase().includes(this.selectedAppliances[this.selectedAppliances.length - 1].toLowerCase());
-    console.log(t)
     return t
-    
     }) 
 }
 this.appliances = this.result.map(r => r.appliance);
 this.appliances = this.appliances.filter(x => !this.selectedAppliances.includes(x))
-  
-
 }
 /*
 addOrRemoveUstensils(tagName){
@@ -150,8 +143,7 @@ addOrRemoveUstensils(tagName){
     
     }*/
     addOrRemoveUstensils(tagName){
-        console.log(this.result)
-        console.log(tagName)
+      
         if(this.selectedUstensils.includes(tagName)){
             this.selectedUstensils = this.selectedUstensils.filter(t => t !== tagName);
             this.ustensils.push(tagName);
@@ -160,12 +152,12 @@ addOrRemoveUstensils(tagName){
             if(!this.selectedUstensils.length == 0){
                 this.result = this.result.filter(r => {
     
-                    console.log(r.ustensils, this.selectedUstensils);
+                   
                    const tu = r.ustensils.some(u => {
-                       console.log(u)
+                       
                        return this.selectedUstensils[this.selectedUstensils.length - 1].includes(u)
                    })
-                   console.log(tu)
+                  
                    return tu
                    
                    }) 
@@ -174,15 +166,13 @@ addOrRemoveUstensils(tagName){
             
         }else{
             this.selectedUstensils.push(tagName);
-            console.log(this.result)
             this.result = this.result.filter(r => {
     
-                console.log(r.ustensils, this.selectedUstensils);
                const tu = r.ustensils.some(u => {
-                   console.log(u)
+                  
                    return this.selectedUstensils[this.selectedUstensils.length - 1].includes(u)
                })
-               console.log(tu)
+        
                return tu
                
                }) 
@@ -258,6 +248,131 @@ renderAll = data.forEach(el => {
     renderCards(el);
 });
 
+function getTagsIngredient(){
+    advanceSearchResultsIngredients.querySelectorAll(".add_tag").forEach(el => {
+        
+        el.addEventListener("click", e => {      
+        const nameTag = e.target.textContent;
+         filter.addOrRemoveIngredient(nameTag);
+         advanceSearchResultsIngredients.innerHTML = "";
+        renderAll = recipeCardTemplate.innerHTML = "";
+        renderAll = filter.result.forEach(el => renderCards(el));
+        tags.innerHTML += `<li class="tag tag_i" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
+    tags.querySelectorAll(".tag_i").forEach(el => {
+     el.addEventListener("click", ()=> {
+         const s = el.getAttribute("data-tag");
+         filter.addOrRemoveIngredient(s);
+         tags.removeChild(el);
+         renderAll = recipeCardTemplate.innerHTML = "";
+         renderAll = filter.result.forEach(el => renderCards(el));
+         console.log(filter.selectedAppliances,filter.selectedUstensils,filter.selectedIngredients)
+         
+     })  
+   }) 
+
+
+
+        })
+    })
+    
+};
+function getTagsUstensils(){
+    advanceSearchResultsUstensils.querySelectorAll(".add_tag").forEach(el => {
+        
+        el.addEventListener("click", e => {      
+        const nameTag = e.target.textContent;
+         filter.addOrRemoveUstensils(nameTag);
+         advanceSearchResultsUstensils.innerHTML = "";
+        renderAll = recipeCardTemplate.innerHTML = "";
+        renderAll = filter.result.forEach(el => renderCards(el));
+        tags.innerHTML += `<li class="tag tag_u" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
+    tags.querySelectorAll(".tag_u").forEach(el => {
+     el.addEventListener("click", ()=> {
+         const su = el.getAttribute("data-tag");
+         filter.addOrRemoveUstensils(su);
+         tags.removeChild(el);
+         renderAll = recipeCardTemplate.innerHTML = "";
+         renderAll = filter.result.forEach(el => renderCards(el));
+         console.log(filter.selectedAppliances,filter.selectedUstensils,filter.selectedIngredients)
+         
+     })  
+   }) 
+
+
+
+        })
+
+ 
+ })
+
+};
+function getTagsAppliances(){
+    advanceSearchResultsAppliance.querySelectorAll(".add_tag").forEach(el => {
+    
+        el.addEventListener("click", e => {      
+        const nameTag = e.target.textContent;
+         filter.addOrRemoveAppliance(nameTag);
+         advanceSearchResultsAppliance.innerHTML = "";
+        renderAll = recipeCardTemplate.innerHTML = "";
+        renderAll = filter.result.forEach(el => renderCards(el));
+        tags.innerHTML += `<li class="tag tag_a" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
+    tags.querySelectorAll(".tag_a").forEach(el => {
+     el.addEventListener("click", ()=> {
+         const sa = el.getAttribute("data-tag");
+         filter.addOrRemoveAppliance(sa);
+         tags.removeChild(el);
+         renderAll = recipeCardTemplate.innerHTML = "";
+         renderAll = filter.result.forEach(el => renderCards(el));
+         console.log(filter.selectedAppliances,filter.selectedUstensils,filter.selectedIngredients)
+         
+     })  
+   }) 
+
+
+
+        })
+
+ 
+ })
+
+};
+
+
+
+advanceSearchByIngredients.addEventListener("input",e => {
+    const input = e.target.value.toLowerCase().trim();
+    const i = filter.ingredients;
+    const result = filter.filterWithAdvancesdSearchBar(i,input);
+   
+    advanceSearchResultsIngredients.innerHTML = "";
+    advanceSearchResultsIngredients.innerHTML += `${result.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
+   getTagsIngredient();
+
+    
+})
+
+advanceSearchByUstensils.addEventListener("input",e => {
+    const input = e.target.value.toLowerCase().trim();
+    const u = filter.ustensils;
+    const result = filter.filterWithAdvancesdSearchBar(u,input);
+   
+    advanceSearchResultsUstensils.innerHTML = "";
+    advanceSearchResultsUstensils.innerHTML += `${result.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
+   getTagsIngredient();
+    
+})
+
+advanceSearchByAppliance.addEventListener("input",e => {
+    const input = e.target.value.toLowerCase().trim();
+    const a = filter.appliances;
+    const result = filter.filterWithAdvancesdSearchBar(a,input);
+   
+    advanceSearchResultsAppliance.innerHTML = "";
+    advanceSearchResultsAppliance.innerHTML += `${result.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
+   getTagsIngredient();
+
+    
+})
 
 searchBar.addEventListener("input", e => {
     const input = e.target.value.toLowerCase().trim();
@@ -291,36 +406,9 @@ searchBar.addEventListener("input", e => {
             advanceSearchByUstensils.setAttribute("placeholder", "rechercher un ustensil");
             loadUstensils.classList.replace("bi-chevron-down", "bi-chevron-up");
             advanceSearchResultsUstensils.innerHTML = "";
-            advanceSearchResultsUstensils.innerHTML += `${filter.ustensils.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`
-            advanceSearchResultsUstensils.querySelectorAll(".add_tag").forEach(el => {
-        
-                el.addEventListener("click", e => {      
-                const nameTag = e.target.textContent;
-                 filter.addOrRemoveUstensils(nameTag);
-                 advanceSearchResultsUstensils.innerHTML = "";
-                renderAll = recipeCardTemplate.innerHTML = "";
-                renderAll = filter.result.forEach(el => renderCards(el));
-                tags.innerHTML += `<li class="tag tag_u" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
-            tags.querySelectorAll(".tag_u").forEach(el => {
-             el.addEventListener("click", ()=> {
-                 const su = el.getAttribute("data-tag");
-                 console.log(su)
-                 filter.addOrRemoveUstensils(su);
-                 tags.removeChild(el);
-                 renderAll = recipeCardTemplate.innerHTML = "";
-                 renderAll = filter.result.forEach(el => renderCards(el));
-                 
-             })  
-           }) 
-    
-    
-    
-                })
-    
-         
-         })
-  
-    
+            advanceSearchResultsUstensils.innerHTML += `${filter.ustensils.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
+            getTagsUstensils();
+           
      
 
 })
@@ -336,37 +424,8 @@ searchBar.addEventListener("input", e => {
             loadIngredients.classList.replace("bi-chevron-down", "bi-chevron-up");
             advanceSearchResultsIngredients.innerHTML = "";
             advanceSearchResultsIngredients.innerHTML += `${filter.ingredients.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`
-            advanceSearchResultsIngredients.querySelectorAll(".add_tag").forEach(el => {
-        
-                el.addEventListener("click", e => {      
-                const nameTag = e.target.textContent;
-                 filter.addOrRemoveIngredient(nameTag);
-                 advanceSearchResultsIngredients.innerHTML = "";
-                renderAll = recipeCardTemplate.innerHTML = "";
-                renderAll = filter.result.forEach(el => renderCards(el));
-                tags.innerHTML += `<li class="tag tag_i" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
-            tags.querySelectorAll(".tag_i").forEach(el => {
-             el.addEventListener("click", ()=> {
-                 const s = el.getAttribute("data-tag");
-                 console.log(s)
-                 filter.addOrRemoveIngredient(s);
-                 tags.removeChild(el);
-                 renderAll = recipeCardTemplate.innerHTML = "";
-                 renderAll = filter.result.forEach(el => renderCards(el));
-                 
-             })  
-           }) 
-    
-    
-    
-                })
-    
-         
-         })
-  
-    
-     
-
+           getTagsIngredient();
+           
 })
 
 
@@ -381,38 +440,14 @@ function openSelectAppliances () {
         loadAppliances.classList.replace("bi-chevron-down", "bi-chevron-up");
         advanceSearchResultsAppliance.innerHTML = "";
         advanceSearchResultsAppliance.innerHTML += `${filter.appliances.map(r => `<li class="add_tag">${r}</li>`).join("")}`
-        advanceSearchResultsAppliance.querySelectorAll(".add_tag").forEach(el => {
-    
-            el.addEventListener("click", e => {      
-            const nameTag = e.target.textContent;
-             filter.addOrRemoveAppliance(nameTag);
-             advanceSearchResultsAppliance.innerHTML = "";
-            renderAll = recipeCardTemplate.innerHTML = "";
-            renderAll = filter.result.forEach(el => renderCards(el));
-            tags.innerHTML += `<li class="tag tag_a" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
-        tags.querySelectorAll(".tag_a").forEach(el => {
-         el.addEventListener("click", ()=> {
-             const sa = el.getAttribute("data-tag");
-             console.log(sa)
-             filter.addOrRemoveAppliance(sa);
-             tags.removeChild(el);
-             renderAll = recipeCardTemplate.innerHTML = "";
-             renderAll = filter.result.forEach(el => renderCards(el));
-             
-         })  
-       }) 
-
-
-
-            })
-
-     
-     })
-
+       getTagsAppliances();
+       
 
  
 
 })
+
+
 
 
 
@@ -424,34 +459,6 @@ openSelectAppliances();
 
 openSelectIngredients();
 
-
-
-
-
-/*  
-    advanceSearchByIngredients.addEventListener("input", e => {
-        let test = [];
-        test = test.concat(...listOfIngredients);
-        test = test.map(t => t.toLowerCase().replace(new RegExp(/[èéêë]/g),"e"));
-        test = new Set([...test]);
-        test = [...test]
-       
-        let input2 = e.target.value;
-    
-    
-          let testResult = filterWithAdvancesdSearchBar(test,input2);
-             testResult = testResult.slice(0,29);
-         
-        advanceSearchResultsIngredients.innerHTML = "";
-        advanceSearchResultsIngredients.innerHTML += `${testResult.map(r => `<li>${r}</li>`).join("")}`
-    })
-    advanceSearchResultsIngredients.addEventListener("click", e => {
-  
-     
-   })
-    */
-
-   
 
  
 });
