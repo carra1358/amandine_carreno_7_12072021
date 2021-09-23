@@ -34,17 +34,16 @@ class Filter {
         this.appliances = [];
         this.ustensils =[];
         this.query = null;
-        this.tagResult= [];
         this.result = [];
     }
-  
-get i (){
-    let i = this.recipes.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
-    i = i.reduce(function(a,b){ return [...a,...b]});
-    i = new Set([...i])
-    this.ingredients = [...i];
-  return this.ingredients
-}
+    get i (){
+        let i = this.recipes.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
+        i = i.reduce(function(a,b){ return [...a,...b]});
+        i = new Set([...i])
+        this.ingredients = [...i];
+      return this.ingredients}
+
+
 
 filterWithSearchBar(query){
    this.query = query;
@@ -52,25 +51,24 @@ filterWithSearchBar(query){
 
        if(this.query.length >= 3){
         this.result = this.recipes.filter((r) =>  
-        r.name.toLowerCase().includes(query) || r.description.toLowerCase().split(" ").includes(query) 
-        // || Object.values(this.ingredients).includes(query) ou r.ingredients.map(i => i.values(ingredient).includes(query))
-          
-             );
+        r.name.toLowerCase().includes(query) || r.description.toLowerCase().split(" ").includes(query)|| r.ingredients.find(i => i.ingredient.toLowerCase().includes(query))
+        
+             ); 
+             
 
            if(this.result.length > 0){
-               let i = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
-                i = i.reduce(function(a,b){ return [...a,...b]});
-                i = new Set([...i])
-                this.ingredients = [...i];
+               this.ingredients = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
+                this.ingredients = reduce(this.ingredients);
+                
+              
+               
 
                this.appliances = this.result.map(r => r.appliance);
                this.appliances = new Set([...this.appliances]);
                this.appliances = [...this.appliances];
                
                this.ustensils = this.result.map(u => u.ustensils);
-               this.ustensils = this.ustensils.reduce(function(a,b){ return [...a,...b]});
-               this.ustensils = new Set([...this.ustensils]);
-               this.ustensils = [...this.ustensils];
+               this.ustensils = reduce(this.ustensils);
               
            }
             
@@ -110,47 +108,7 @@ if(this.selectedAppliances.includes(tagName)){
 this.appliances = this.result.map(r => r.appliance);
 this.appliances = this.appliances.filter(x => !this.selectedAppliances.includes(x))
 }
-/*
-addOrRemoveUstensils(tagName){
-    console.log(this.result)
-    console.log(tagName)
-    if(this.selectedUstensils.includes(tagName)){
-        this.selectedUstensils = this.selectedUstensils.filter(t => t !== tagName);
-        this.ustensils.push(tagName);
-        this.filterWithSearchBar(this.query)
-         
-        if(!this.selectedUstensils.length == 0){
-            this.result = this.result.filter(r => {
 
-                console.log(r.ustensils, this.selectedUstensils);
-               const tu = r.ustensils.toLowerCase().includes(this.selectedUstensils[this.selectedUstensils.length - 1].toLowerCase());
-               console.log(tu)
-               return tu
-               
-               }) 
-            
-        }
-        
-    }else{
-        this.selectedUstensils.push(tagName);
-        console.log(this.result)
-        this.result = this.result.filter(r => {
-
-            console.log(r.ustensils, this.selectedUstensils);
-           const tu = r.ustensils.includes(this.selectedUstensils[this.selectedUstensils.length - 1].toLowerCase());
-           console.log(tu)
-           return tu
-           
-           }) 
-    }
-    this.ustensils = this.result.map(r => r.ustensils);
-    this.ustensils = this.ustensils.reduce(function(a,b){ return [...a,...b]});
-    this.ustensils = new Set([...this.ustensils]);
-    this.ustensils = [...this.ustensils]
-    this.ustensils= this.ustensils.filter(x => !this.selectedUstensils.includes(x))
-      
-    
-    }*/
     addOrRemoveUstensils(tagName){
       
         if(this.selectedUstensils.includes(tagName)){
@@ -186,12 +144,9 @@ addOrRemoveUstensils(tagName){
                
                }) 
         }
-        this.ustensils = this.result.map(r => r.ustensils);
-        this.ustensils = this.ustensils.reduce(function(a,b){ return [...a,...b]});
-        this.ustensils = new Set([...this.ustensils]);
-        this.ustensils = [...this.ustensils]
+        this.ustensils = this.result.map(u => u.ustensils);
+        this.ustensils = reduce(this.ustensils);
         this.ustensils= this.ustensils.filter(x => !this.selectedUstensils.includes(x))
-          
         
         }
 
@@ -214,11 +169,9 @@ addOrRemoveIngredient(tagName){
         })
     
         this.ingredients = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
-        /*newI = newI.reduce(function(a,b){ return [...a,...b]});
-        newI = new Set([...newI])
-       this.ingredients = [...newI];
-       this.ingredients = this.ingredients.filter( x => !this.selectedIngredients.includes(x));*/
-    
+        this.ingredients = reduce(this.ingredients);
+        
+        console.log(this.test)
        this.ingredients = this.ingredients.filter( x => !this.selectedIngredients.includes(x));
 
        }
@@ -237,10 +190,6 @@ addOrRemoveIngredient(tagName){
       
     })
 
-    this.ingredients = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
-    /*newI = newI.reduce(function(a,b){ return [...a,...b]});
-    newI = new Set([...newI])
-   this.ingredients = [...newI];*/
    this.ingredients = this.ingredients.filter( x => !this.selectedIngredients.includes(x));
 
     }
@@ -254,41 +203,40 @@ addOrRemoveIngredient(tagName){
 
 const filter = new Filter(data);
 
-console.log(filter.ingredients)
- data.forEach(el => {
-    renderCards(el);
+
+
+// Appeler renderResult au lieux de renderAll =
+function renderResult (x){
+    recipeCardTemplate.innerHTML = "";
+    x.forEach(el => {
+  return  renderCards(el);
 });
+}
+
+
+renderResult(filter.recipes);
 
 function getTagsIngredient(){
     advanceSearchResultsIngredients.querySelectorAll(".add_tag").forEach(el => {
         
         el.addEventListener("click", e => {      
         const nameTag = e.target.textContent;
-        if(filter.result.length == 0){
-            filter.filterWithSearchBar(nameTag)
-            console.log(nameTag)
-            console.log(filter.result)
-        }
          filter.addOrRemoveIngredient(nameTag);
          advanceSearchResultsIngredients.innerHTML = "";
-        renderAll = recipeCardTemplate.innerHTML = "";
-        renderAll = filter.result.forEach(el => renderCards(el));
+         recipeCardTemplate.innerHTML = "";
+        renderResult(filter.result)
         tags.innerHTML += `<li class="tag tag_i" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
-    tags.querySelectorAll(".tag_i").forEach(el => {
-     el.addEventListener("click", ()=> {
-         const s = el.getAttribute("data-tag");
-         filter.addOrRemoveIngredient(s);
-         console.log(filter.result)
-         tags.removeChild(el);
-         renderAll = recipeCardTemplate.innerHTML = "";
-         renderAll = filter.result.forEach(el => renderCards(el));
-         console.log(filter.selectedAppliances,filter.selectedUstensils,filter.selectedIngredients)
-         
-     })  
-   }) 
-
-
-
+        tags.querySelectorAll(".tag").forEach(el => {
+            el.addEventListener("click", ()=> {
+                const s = el.getAttribute("data-tag");
+                filter.addOrRemoveIngredient(s);
+                tags.removeChild(el);
+                recipeCardTemplate.innerHTML = "";
+                renderResult(filter.result);
+                
+                
+            })  
+          }) 
         })
     })
     
@@ -300,17 +248,17 @@ function getTagsUstensils(){
         const nameTag = e.target.textContent;
          filter.addOrRemoveUstensils(nameTag);
          advanceSearchResultsUstensils.innerHTML = "";
-        renderAll = recipeCardTemplate.innerHTML = "";
-        renderAll = filter.result.forEach(el => renderCards(el));
+        recipeCardTemplate.innerHTML = "";
+        renderResult(filter.result);
         tags.innerHTML += `<li class="tag tag_u" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
-    tags.querySelectorAll(".tag_u").forEach(el => {
+    tags.querySelectorAll(".tag").forEach(el => {
      el.addEventListener("click", ()=> {
          const su = el.getAttribute("data-tag");
          filter.addOrRemoveUstensils(su);
          tags.removeChild(el);
-         renderAll = recipeCardTemplate.innerHTML = "";
-         renderAll = filter.result.forEach(el => renderCards(el));
-         console.log(filter.selectedAppliances,filter.selectedUstensils,filter.selectedIngredients)
+          recipeCardTemplate.innerHTML = "";
+          renderResult(filter.result);
+
          
      })  
    }) 
@@ -333,14 +281,13 @@ function getTagsAppliances(){
         renderAll = recipeCardTemplate.innerHTML = "";
         renderAll = filter.result.forEach(el => renderCards(el));
         tags.innerHTML += `<li class="tag tag_a" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
-    tags.querySelectorAll(".tag_a").forEach(el => {
+    tags.querySelectorAll(".tag").forEach(el => {
      el.addEventListener("click", ()=> {
          const sa = el.getAttribute("data-tag");
          filter.addOrRemoveAppliance(sa);
          tags.removeChild(el);
-         renderAll = recipeCardTemplate.innerHTML = "";
-         renderAll = filter.result.forEach(el => renderCards(el));
-         console.log(filter.selectedAppliances,filter.selectedUstensils,filter.selectedIngredients)
+         recipeCardTemplate.innerHTML = "";
+         renderResult(filter.result);
          
      })  
    }) 
@@ -359,12 +306,9 @@ function getTagsAppliances(){
 advanceSearchByIngredients.addEventListener("input",e => {
     const input = e.target.value.toLowerCase().trim();
     const i = filter.ingredients;
-    const r = filter.recipes;
     const result = filter.filterWithAdvancesdSearchBar(i,input);
     advanceSearchResultsIngredients.innerHTML = "";
     advanceSearchResultsIngredients.innerHTML += `${result.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
-   getTagsIngredient();
-
     
 })
 
@@ -375,7 +319,7 @@ advanceSearchByUstensils.addEventListener("input",e => {
    
     advanceSearchResultsUstensils.innerHTML = "";
     advanceSearchResultsUstensils.innerHTML += `${result.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
-   getTagsIngredient();
+   getTagsUstensils();
     
 })
 
@@ -386,7 +330,7 @@ advanceSearchByAppliance.addEventListener("input",e => {
    
     advanceSearchResultsAppliance.innerHTML = "";
     advanceSearchResultsAppliance.innerHTML += `${result.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
-   getTagsIngredient();
+   getTagsAppliances();
 
     
 })
@@ -396,21 +340,18 @@ searchBar.addEventListener("input", e => {
     filter.filterWithSearchBar(input);
      setTimeout(()=>{if(input == searchBar.value){
     if(input.length >= 4 && filter.result.length > 0){
-        renderAll = recipeCardTemplate.innerHTML = ""
-        renderAll = filter.result.forEach(el => {
-        renderCards(el);
-        })
+        recipeCardTemplate.innerHTML = ""
+        renderResult(filter.result);
+       console.log(filter.test)
     }else if (filter.result.length <=0 && input.length >= 4){
     advanceSearchResultsAppliance.innerHTML = "";
     advanceSearchResultsIngredients.innerHTML = "";
     advanceSearchResultsUstensils.innerHTML = "";
-    renderAll = recipeCardTemplate.innerHTML = "aucun resultat"
+    recipeCardTemplate.innerHTML = "aucun resultat"
     
 }else{
-    renderAll = recipeCardTemplate.innerHTML = ""
-    renderAll = data.forEach(el => {
-        renderCards(el)
-    })
+    recipeCardTemplate.innerHTML = "";
+    renderResult(filter.result);
 }    
 
 
@@ -441,8 +382,9 @@ searchBar.addEventListener("input", e => {
             loadIngredients.classList.replace("bi-chevron-down", "bi-chevron-up");
             advanceSearchResultsIngredients.innerHTML = "";
             advanceSearchResultsIngredients.innerHTML += `${filter.ingredients.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`
+            
            getTagsIngredient();
-           
+           console.log(filter.test)
 })
 
 
@@ -490,6 +432,15 @@ openSelectIngredients();
 
 
 //END CODE
+
+
+
+function reduce(t){
+    t = t.reduce(function(a,b){ return [...a,...b]});
+      t = new Set([...t]);
+     t = [...t];
+     return t;
+}
 
 function renderCards (el){
    
