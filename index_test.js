@@ -7,12 +7,6 @@ const advanceSearchResultsUstensils = document.getElementById("search_and_select
 const advanceSearchByIngredients = document.getElementById("search_ingredients");
 const advanceSearchByAppliance = document.getElementById("search_appliances");
 const advanceSearchByUstensils = document.getElementById("search_ustensils");
-const selectIngredients = document.getElementById("select_ingredients");
-const selectUstensils = document.getElementById("select_ustensils");
-const selectAppareil = document.getElementById("select_appareil");
-const loadIngredients = document.getElementById("load_ingredients");
-const loadAppliances = document.getElementById("load_appliances");
-const loadUstensils = document.getElementById("load_ustensils");
 const tags = document.getElementById("tags");
 
 // START CODE
@@ -37,24 +31,24 @@ class Filter {
     }
     get i (){
         let i = this.recipes.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
-        i = i.reduce(function(a,b){ return [...a,...b]});
+        i = i.reduce(function(a,b){ return [...a,...b];});
         i = new Set([...i]);
         this.ingredients = [...i];
-       return this.ingredients
+       return this.ingredients;
     }
 
     get u (){
         let u = this.recipes.map(r => r.ustensils);
-        u = u.reduce(function(a,b){ return [...a,...b]});
+        u = u.reduce(function(a,b){ return [...a,...b];});
         u = new Set([...u]);
         this.ustensils = [...u];
-      return this.ustensils
+      return this.ustensils;
     }
     get a (){
         let a = this.recipes.map(r => r.appliance);
         a = new Set([...a]);
         this.appliances = [...a];
-        return a 
+        return a; 
     }
     get allTags (){
         
@@ -75,7 +69,7 @@ filterWithSearchBar(query){
     r.name.toLowerCase().includes(query) || r.description.toLowerCase().split(" ").includes(query)|| r.ingredients.find(i => i.ingredient.toLowerCase().includes(query))
     
          ); 
-         console.log(this.result)
+         console.log(this.result);
        
     
            if(this.result.length > 0){
@@ -102,13 +96,13 @@ filterWithAdvancesdSearchBar(arr,requete){
 }
 
 addOrRemoveTag(tagName,type){
-    this.allTags
+    this.allTags;
     if(this[type] !== undefined){
         if (this[type].includes(tagName)) {
             this[type]= this[type].filter(t => t !== tagName);
     
             if(this.allTags.length == 0)
-            this.allTags
+            this.allTags;
             this.result = [];
             this.a; this.i; this.u;
         } else {
@@ -121,16 +115,16 @@ addOrRemoveTag(tagName,type){
 }
 // permert de revenir a zero et appliquer chaque selected tags un a un
 ResetDom(data){
-  this.allTags
+  this.allTags;
   this.result = [];
-  renderResult(this[data])
+  renderResult(this[data]);
   this.a ; this.i ; this.u;
 
 }
  
 
 searchWithTag(){
-    this.allTags
+    this.allTags;
     
    
 
@@ -142,17 +136,17 @@ searchWithTag(){
         
         this.result = data.filter(r => {
             let appliances = [r.appliance];
-            let ustensils = [...r.ustensils]
+            let ustensils = [...r.ustensils];
             let ingredients = r.ingredients.map(ingredients => ingredients.ingredient);
             this.allTags;
 
-        const result =  [...appliances,...ustensils,...ingredients].some(i => { const z = i.toLowerCase()== tag.toLowerCase(); return z})
+        const result =  [...appliances,...ustensils,...ingredients].some(i => { const z = i.toLowerCase()== tag.toLowerCase(); return z;});
             
             return result;
            
-        }) 
-            console.log(this.result)
-            console.log(this.allTags)
+        }); 
+            console.log(this.result);
+            console.log(this.allTags);
         this.ingredients = this.result.map(r => r.ingredients.map(ingredients => ingredients.ingredient.toLowerCase()));
         this.ingredients = reduce(this.ingredients);
         
@@ -165,7 +159,7 @@ searchWithTag(){
        
        this.ustensils = this.result.map(u => u.ustensils);
        this.ustensils = reduce(this.ustensils);
-    }) 
+    }); 
 
 
 }
@@ -204,10 +198,10 @@ advanceSearchByIngredients.addEventListener("input",e => {
         el.addEventListener("click", e => {      
         const nameTag = e.target.textContent;
           filter.addOrRemoveTag(nameTag,"selectedIngredients");
-           filter.searchWithTag()
+           filter.searchWithTag();
          advanceSearchResultsIngredients.innerHTML = "";
          recipeCardTemplate.innerHTML = "";
-        renderResult(filter.result)
+        renderResult(filter.result);
         tags.innerHTML += `<li class="tag tag_i" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
         tags.querySelectorAll(".tag").forEach(el => {
             el.addEventListener("click", ()=> {
@@ -218,18 +212,18 @@ advanceSearchByIngredients.addEventListener("input",e => {
                 recipeCardTemplate.innerHTML = "";
                 renderResult(filter.result);
                 if(tags.textContent.trim() === ""){
-                     filter.ResetDom("recipes")
+                     filter.ResetDom("recipes");
                      filter.filterWithSearchBar(searchBar.value.trim());
-                     renderResult(filter.result)
+                     renderResult(filter.result);
                   }
                 
                 
-            })  
-          }) 
-        })
-    })
+            });  
+          }); 
+        });
+    });
      
-})
+});
 
 // Events Tags Ustensils
 
@@ -244,10 +238,10 @@ advanceSearchByUstensils.addEventListener("input",e => {
         el.addEventListener("click", e => {      
         const nameTag = e.target.textContent;
           filter.addOrRemoveTag(nameTag,"selectedUstensils");
-           filter.searchWithTag()
+           filter.searchWithTag();
          advanceSearchResultsIngredients.innerHTML = "";
          recipeCardTemplate.innerHTML = "";
-        renderResult(filter.result)
+        renderResult(filter.result);
         tags.innerHTML += `<li class="tag tag_u" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
         tags.querySelectorAll(".tag").forEach(el => {
             el.addEventListener("click", ()=> {
@@ -258,18 +252,18 @@ advanceSearchByUstensils.addEventListener("input",e => {
                 recipeCardTemplate.innerHTML = "";
                 renderResult(filter.result);
                 if(tags.textContent.trim() === ""){
-                     filter.ResetDom("recipes")
+                     filter.ResetDom("recipes");
                      filter.filterWithSearchBar(searchBar.value.trim());
-                     renderResult(filter.result)
+                     renderResult(filter.result);
                   }
                 
                 
-            })  
-          }) 
-        })
-    })
+            });  
+          }); 
+        });
+    });
      
-})
+});
 
 // Events Tags Appliances
 
@@ -284,10 +278,10 @@ advanceSearchByAppliance.addEventListener("input",e => {
         el.addEventListener("click", e => {      
         const nameTag = e.target.textContent;
           filter.addOrRemoveTag(nameTag,"selectedAppliances");
-           filter.searchWithTag()
+           filter.searchWithTag();
          advanceSearchResultsIngredients.innerHTML = "";
          recipeCardTemplate.innerHTML = "";
-        renderResult(filter.result)
+        renderResult(filter.result);
         tags.innerHTML += `<li class="tag tag_a" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
         tags.querySelectorAll(".tag").forEach(el => {
             el.addEventListener("click", ()=> {
@@ -298,18 +292,18 @@ advanceSearchByAppliance.addEventListener("input",e => {
                 recipeCardTemplate.innerHTML = "";
                 renderResult(filter.result);
                 if(tags.textContent.trim() === ""){
-                     filter.ResetDom("recipes")
+                     filter.ResetDom("recipes");
                      filter.filterWithSearchBar(searchBar.value.trim());
-                     renderResult(filter.result)
+                     renderResult(filter.result);
                   }
                 
                 
-            })  
-          }) 
-        })
-    })
+            });  
+          }); 
+        });
+    });
      
-})
+});
 
 
 
@@ -319,32 +313,27 @@ advanceSearchByAppliance.addEventListener("input",e => {
 searchBar.addEventListener("input", e => {
     const input = e.target.value.toLowerCase().trim();
     filter.filterWithSearchBar(input);
-    filter.searchWithTag()
+    filter.searchWithTag();
      setTimeout(()=>{if(input == searchBar.value){
     if(input.length >= 4 && filter.result.length > 0){
-        recipeCardTemplate.innerHTML = ""
+        recipeCardTemplate.innerHTML = "";
         renderResult(filter.result);
-        if(filter.selectedAppliances.length > 0 || filter.selectedIngredients.length > 0 || filter.selectedUstensils.length > 0){
-    
-       
-            
-         }
     }else if (filter.result.length <=0 && input.length >= 4){
     advanceSearchResultsAppliance.innerHTML = "";
     advanceSearchResultsIngredients.innerHTML = "";
     advanceSearchResultsUstensils.innerHTML = "";
-    recipeCardTemplate.innerHTML = "aucun resultat"
+    recipeCardTemplate.innerHTML = "aucun resultat";
     
 }else if(filter.selectedAppliances.length > 0 || filter.selectedIngredients.length > 0 || filter.selectedUstensils.length > 0 && input.length == 0){
-    filter.ResetDom("recipes")
+    filter.ResetDom("recipes");
     recipeCardTemplate.innerHTML = "";
-    filter.searchWithTag()
+    filter.searchWithTag();
     renderResult(filter.result);
 }    
 
 
 
-    }},300)
+    }},300);
 
  
 });
@@ -363,7 +352,7 @@ searchBar.addEventListener("input", e => {
 
 
 function reduce(t){
-    t = t.reduce(function(a,b){ return [...a,...b]});
+    t = t.reduce(function(a,b){ return [...a,...b];});
       t = new Set([...t]);
      t = [...t];
      return t;
@@ -384,38 +373,21 @@ function renderCards (el){
         ${el.ingredients.map((i) => { 
           let ingredient = i.ingredient;
           let quantity = i.quantity;
-          let unit = i.unit
+          let unit = i.unit;
           if(typeof unit === "undefined"){
               unit = "";
           }
           if(typeof quantity === "undefined"){
               quantity = "";
           }
-           return `<li>${ingredient} : ${quantity} ${unit}</li>`}).join("")}
+           return `<li>${ingredient} : ${quantity} ${unit}</li>`;}).join("")}
         </ul>
         <p id="text_in_card" class="card-text col">${el.description}</p>
     </div>
   
   </div>
-  `
+  `;
   }
 
 
 
-  function AddTag(tag,type,dom,x){
-    const color = x;
-     tag.forEach(el => {
-         
-         el.addEventListener("click", e => {      
-         const nameTag = e.target.textContent;
-           filter.addOrRemoveTag(nameTag,type);
-            filter.searchWithTag()
-          dom.innerHTML = "";
-          recipeCardTemplate.innerHTML = "";
-         renderResult(filter.result)
-         
-         tags.innerHTML += `<li class="tag tag_${color}" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
-         tags.querySelectorAll(".tag")
-         })
-     })
-    }
