@@ -474,4 +474,3 @@ function renderCards (el){
   }
 
 
-

@@ -7,6 +7,15 @@ const advanceSearchResultsUstensils = document.getElementById("search_and_select
 const advanceSearchByIngredients = document.getElementById("search_ingredients");
 const advanceSearchByAppliance = document.getElementById("search_appliances");
 const advanceSearchByUstensils = document.getElementById("search_ustensils");
+const selectIngredients = document.getElementById("select_ingredients");
+const selectUstensils = document.getElementById("select_ustensils");
+const selectAppareil = document.getElementById("select_appareil");
+const loadIngredients = document.getElementById("load_ingredients");
+const loadAppliances = document.getElementById("load_appliances");
+const loadUstensils = document.getElementById("load_ustensils");
+const buttonIngredient = document.getElementById("button_ingredient");
+const buttonAppareil = document.getElementById("button_appareil");
+const buttonUstensils = document.getElementById("button_ustensils");
 const tags = document.getElementById("tags");
 
 // START CODE
@@ -201,6 +210,8 @@ advanceSearchByIngredients.addEventListener("input",e => {
            filter.searchWithTag();
          advanceSearchResultsIngredients.innerHTML = "";
          recipeCardTemplate.innerHTML = "";
+         advanceSearchByIngredients.value ="";
+         close(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
         renderResult(filter.result);
         tags.innerHTML += `<li class="tag tag_i" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
         tags.querySelectorAll(".tag").forEach(el => {
@@ -239,8 +250,10 @@ advanceSearchByUstensils.addEventListener("input",e => {
         const nameTag = e.target.textContent;
           filter.addOrRemoveTag(nameTag,"selectedUstensils");
            filter.searchWithTag();
-         advanceSearchResultsIngredients.innerHTML = "";
+         advanceSearchResultsUstensils.innerHTML = "";
          recipeCardTemplate.innerHTML = "";
+         advanceSearchByUstensils.value ="";
+         close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
         renderResult(filter.result);
         tags.innerHTML += `<li class="tag tag_u" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
         tags.querySelectorAll(".tag").forEach(el => {
@@ -279,7 +292,9 @@ advanceSearchByAppliance.addEventListener("input",e => {
         const nameTag = e.target.textContent;
           filter.addOrRemoveTag(nameTag,"selectedAppliances");
            filter.searchWithTag();
-         advanceSearchResultsIngredients.innerHTML = "";
+         advanceSearchResultsAppliance.innerHTML = "";
+         advanceSearchByAppliance.value = "";
+         close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
          recipeCardTemplate.innerHTML = "";
         renderResult(filter.result);
         tags.innerHTML += `<li class="tag tag_a" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
@@ -318,17 +333,143 @@ searchBar.addEventListener("input", e => {
     if(input.length >= 4 && filter.result.length > 0){
         recipeCardTemplate.innerHTML = "";
         renderResult(filter.result);
+    //Events Button
+
+    // Events Tags Ingredients
+        loadIngredients.addEventListener("click", ()=> {
+            open(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+            close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+            close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+            const i = filter.ingredients;
+            advanceSearchResultsIngredients.innerHTML = "";
+            advanceSearchResultsIngredients.innerHTML += `${i.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
+            advanceSearchResultsIngredients.querySelectorAll(".add_tag").forEach(el => {
+                
+                el.addEventListener("click", e => {      
+                const nameTag = e.target.textContent;
+                  filter.addOrRemoveTag(nameTag,"selectedIngredients");
+                   filter.searchWithTag();
+                 advanceSearchResultsIngredients.innerHTML = "";
+                 recipeCardTemplate.innerHTML = "";
+                 advanceSearchByIngredients.value ="";
+                 close(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+                renderResult(filter.result);
+                tags.innerHTML += `<li class="tag tag_i" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
+                tags.querySelectorAll(".tag").forEach(el => {
+                    el.addEventListener("click", ()=> {
+                        const s = el.getAttribute("data-tag");
+                        filter.addOrRemoveTag(s,"selectedIngredients");
+                        filter.searchWithTag();
+                        tags.removeChild(el);
+                        recipeCardTemplate.innerHTML = "";
+                        renderResult(filter.result);
+                        if(tags.textContent.trim() === ""){
+                             filter.ResetDom("recipes");
+                             filter.filterWithSearchBar(searchBar.value.trim());
+                             renderResult(filter.result);
+                          }
+                    });  
+                  }); 
+                });
+            });
+        });
+
+
+// Events Tags Ustensils
+
+loadUstensils.addEventListener("click", ()=> {
+    const u = filter.ustensils;
+    const result = filter.filterWithAdvancesdSearchBar(u,input);
+    advanceSearchResultsUstensils.innerHTML = "";
+    advanceSearchResultsUstensils.innerHTML += `${u.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
+    advanceSearchResultsUstensils.querySelectorAll(".add_tag").forEach(el => {
+        
+        el.addEventListener("click", e => {      
+        const nameTag = e.target.textContent;
+          filter.addOrRemoveTag(nameTag,"selectedUstensils");
+           filter.searchWithTag();
+         advanceSearchResultsUstensils.innerHTML = "";
+         recipeCardTemplate.innerHTML = "";
+         advanceSearchByUstensils.value ="";
+         close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+        renderResult(filter.result);
+        tags.innerHTML += `<li class="tag tag_u" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
+        tags.querySelectorAll(".tag").forEach(el => {
+            el.addEventListener("click", ()=> {
+                const su = el.getAttribute("data-tag");
+                filter.addOrRemoveTag(su,"selectedUstensils");
+                filter.searchWithTag();
+                tags.removeChild(el);
+                recipeCardTemplate.innerHTML = "";
+                renderResult(filter.result);
+                if(tags.textContent.trim() === ""){
+                     filter.ResetDom("recipes");
+                     filter.filterWithSearchBar(searchBar.value.trim());
+                     renderResult(filter.result);
+                  }
+                
+                
+            });  
+          }); 
+        });
+    });
+     
+});
+
+// Events Tags Appliances
+
+loadAppliances.addEventListener("click",() => {
+    const a = filter.appliances;
+    const result = filter.filterWithAdvancesdSearchBar(a,input);
+    advanceSearchResultsAppliance.innerHTML = "";
+    advanceSearchResultsAppliance.innerHTML += `${a.map(r => `<li class="add_tag">${r}</li>`).join(" ")}`;
+    advanceSearchResultsAppliance.querySelectorAll(".add_tag").forEach(el => {
+        
+        el.addEventListener("click", e => {      
+        const nameTag = e.target.textContent;
+          filter.addOrRemoveTag(nameTag,"selectedAppliances");
+           filter.searchWithTag();
+         advanceSearchResultsAppliance.innerHTML = "";
+         advanceSearchByAppliance.value = "";
+         close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+         recipeCardTemplate.innerHTML = "";
+        renderResult(filter.result);
+        tags.innerHTML += `<li class="tag tag_a" data-tag="${nameTag}"><span>${nameTag}</span><i class="bi bi-x-circle" ></i></li>`;
+        tags.querySelectorAll(".tag").forEach(el => {
+            el.addEventListener("click", ()=> {
+                const sa = el.getAttribute("data-tag");
+                filter.addOrRemoveTag(sa,"selectedAppliances");
+                filter.searchWithTag();
+                tags.removeChild(el);
+                recipeCardTemplate.innerHTML = "";
+                renderResult(filter.result);
+                if(tags.textContent.trim() === ""){
+                     filter.ResetDom("recipes");
+                     filter.filterWithSearchBar(searchBar.value.trim());
+                     renderResult(filter.result);
+                  }
+                
+                
+            });  
+          }); 
+        });
+    });
+     
+});
+
+
+
     }else if (filter.result.length <=0 && input.length >= 4){
     advanceSearchResultsAppliance.innerHTML = "";
     advanceSearchResultsIngredients.innerHTML = "";
     advanceSearchResultsUstensils.innerHTML = "";
     recipeCardTemplate.innerHTML = "aucun resultat";
     
-}else if(filter.selectedAppliances.length > 0 || filter.selectedIngredients.length > 0 || filter.selectedUstensils.length > 0 && input.length == 0){
+}else if(input.length === 0){
     filter.ResetDom("recipes");
     recipeCardTemplate.innerHTML = "";
     filter.searchWithTag();
-    renderResult(filter.result);
+    renderResult(filter.recipes);
 }    
 
 
@@ -363,7 +504,7 @@ function renderCards (el){
   
     return recipeCardTemplate.innerHTML += `
   
-     <div class="card card_custom" style="width: 380px;">
+     <div class="card card_custom">
     <div class="card-img-top img_custom"></div>
     <div class="card-body">
       <h5 class="card_title"><span class="recipe_name">${el.name}</span><i class="bi bi-clock icon-clock"><span class="minute">${el.time} min</span></i>
@@ -373,21 +514,99 @@ function renderCards (el){
         ${el.ingredients.map((i) => { 
           let ingredient = i.ingredient;
           let quantity = i.quantity;
-          let unit = i.unit;
+          let unit = i.unit
           if(typeof unit === "undefined"){
               unit = "";
           }
           if(typeof quantity === "undefined"){
               quantity = "";
           }
-           return `<li>${ingredient} : ${quantity} ${unit}</li>`;}).join("")}
+           return `<li>${ingredient} : ${quantity} ${unit}</li>`}).join("")}
         </ul>
         <p id="text_in_card" class="card-text col">${el.description}</p>
     </div>
   
   </div>
-  `;
+  `
   }
 
 
 
+  buttonIngredient.addEventListener("click",()=>{
+    open(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+    close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+    close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+  });
+
+  buttonAppareil.addEventListener("click",()=>{
+    open(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+    close(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+    close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+  });
+
+  buttonUstensils.addEventListener("click",()=>{
+    open(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+    close(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+    close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+  });
+
+function close(button,input,container,icon){
+    button.style.display="block";
+    input.style.width="0px";
+    container.classList.replace("open","close");
+    icon.classList.replace("bi-chevron-up", "bi-chevron-down");
+}
+
+function open(button,input,container,icon){
+    button.style.display="none";
+    input.style.width="220px";
+    container.classList.replace("close","open");
+    icon.classList.replace("bi-chevron-down", "bi-chevron-up");
+}
+
+loadNewIngredients();
+loadNewUstensils();
+loadNewAppareil();
+
+function loadNewIngredients (){
+    loadIngredients.addEventListener("click", ()=> {
+    if(selectIngredients.classList.contains("close")){
+        open(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+        close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+        close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+    }else{
+        close(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients)
+    advanceSearchResultsIngredients.innerHTML = ""; 
+    }
+   
+})
+}
+
+function loadNewAppareil (){
+    loadAppliances.addEventListener("click", ()=> {
+    if(selectAppareil.classList.contains("close")){
+        open(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+        close(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+        close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+    }else{
+        close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+    advanceSearchResultsAppliance.innerHTML = ""; 
+    }
+   
+})
+}
+
+function loadNewUstensils (){
+    loadUstensils.addEventListener("click", ()=> {
+    if(selectUstensils.classList.contains("close")){
+        open(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+        close(buttonIngredient,advanceSearchByIngredients,selectIngredients,loadIngredients);
+        close(buttonAppareil,advanceSearchByAppliance,selectAppareil,loadAppliances);
+        
+    }else{
+    close(buttonUstensils,advanceSearchByUstensils,selectUstensils,loadUstensils);
+    advanceSearchResultsUstensils.innerHTML = ""; 
+    }
+   
+})
+}
