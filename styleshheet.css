@@ -85,6 +85,9 @@ header{
   
   .button_select{
     color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     border-radius: 5px; 
     font-size: 18px;
     font-family: "lato_bold"!important; 
@@ -95,7 +98,6 @@ header{
   .button_select > span{
     display: flex;
     justify-content: space-between;
-    align-items: center;
     
   }
 
@@ -164,11 +166,13 @@ header{
   
   
   #select_appareil{
+    cursor: pointer;
     background-color:#68D9A4;
     margin-right: 2%;
   }
   
   #select_ustensils{
+    cursor: pointer;
      background-color:#ED6454;
   }
 
@@ -233,7 +237,7 @@ header{
 
   
  .close{
-   height: 79px;
+   height: 69px;
  }
 
 
