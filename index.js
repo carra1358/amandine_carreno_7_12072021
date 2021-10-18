@@ -25,6 +25,7 @@ const buttonAppareil = document.getElementById("button_appareil");
 const buttonUstensils = document.getElementById("button_ustensils");
 const tags = document.getElementById("tags");
 
+
 // START CODE
 
 fetch("./recipes.json")
@@ -41,6 +42,7 @@ fetch("./recipes.json")
         this.tags = [];
         this.query = null;
         this.result = [];
+        this.testresult = [];
       }
       get i() {
         let i = this.recipes.map((r) =>
@@ -57,7 +59,8 @@ fetch("./recipes.json")
       }
 
       get u() {
-        let u = this.recipes.map((r) => r.ustensils);
+        let u = this.recipes.map((r) => r.ustensils.map(u => u.toLowerCase()));
+       
         u = u.reduce(function (a, b) {
           return [...a, ...b];
         });
@@ -78,61 +81,79 @@ fetch("./recipes.json")
       filterWithSearchBar(query) {
         this.query = query;
 
-        let data = this.result;
-        if (this.result.length == 0) {
-          data = this.recipes;
+         let frangmentedQuery = this.query.replaceAll(" ", "|");
+      
+        let regex = new RegExp("("+ frangmentedQuery + ")+","giu");
+   
+        let currentIndex = 0;
+
+
+        while (currentIndex <= this.recipes.length-1){
+            let data = this.result;
+            if (this.result.length == 0) {
+              data = this.recipes;
+            }
+       
+     this.result = data.filter(r => {
+         const finds = r.name.normalize("NFD").replace(/\p{Diacritic}/gu, "").match(regex) || r.description.normalize("NFD").replace(/\p{Diacritic}/gu, "").match(regex)
+         || r.ingredients.map(i => i.ingredient).join(" ").normalize("NFD").replace(/\p{Diacritic}/gu, "").match(regex);
+
+       
+        
+          if(finds !== null){
+                return r;  
+        }
+        });
+
+            currentIndex++;
         }
 
-        this.result = data.filter(
-          (r) =>
-            r.name.toLowerCase().includes(query) ||
-            r.description.toLowerCase().split(" ").includes(query) ||
-            r.ingredients.find((i) =>
-              i.ingredient.toLowerCase().includes(query)
-            )
-        );
+       
 
         if (this.result.length > 0) {
-          this.ingredients = this.result.map((r) =>
-            r.ingredients.map((ingredients) =>
-              ingredients.ingredient.toLowerCase()
-            )
-          );
-          this.ingredients = reduce(this.ingredients);
+            this.ingredients = this.result.map((r) =>
+              r.ingredients.map((ingredients) =>
+                ingredients.ingredient.toLowerCase()
+              )
+            );
+            this.ingredients = reduce(this.ingredients);
+  
+            this.appliances = this.result.map((r) => r.appliance);
+            this.appliances = new Set([...this.appliances]);
+            this.appliances = [...this.appliances];
+  
+            this.ustensils = this.result.map((u) => u.ustensils);
+            this.ustensils = reduce(this.ustensils);
+          }
 
-          this.appliances = this.result.map((r) => r.appliance);
-          this.appliances = new Set([...this.appliances]);
-          this.appliances = [...this.appliances];
-
-          this.ustensils = this.result.map((u) => u.ustensils);
-          this.ustensils = reduce(this.ustensils);
-        }
       }
+
+
       filterWithAdvancesdSearchBar(arr, requete) {
-        return arr.filter(
-          (el) => el.toLowerCase().indexOf(requete.toLowerCase()) !== -1
-        );
+        let regexrequete = new RegExp("("+requete+")", "gi");
+        let resultatRequete =  arr.filter(el => el.normalize("NFD").replace(/\p{Diacritic}/gu, "").match(regexrequete));
+       
+        return resultatRequete;
       }
 
       addOrRemoveTag(tagName) {
         this.allTags;
-        console.log(tagName, this.allTags, this.tags);
+
         if (this.allTags.includes(tagName)) {
           this.tags = this.tags.filter((t) => t !== tagName);
           this.allTags;
-          console.log("remove " + this.allTags);
-
-          if (this.allTags.length == 0) this.allTags;
+          if (this.allTags.length == 0) {
           this.result = [];
           this.a;
           this.i;
           this.u;
+          }
+         
         } else {
-          // this[type].push(tagName);
           this.tags.push(tagName);
         }
       }
-      // permert de revenir a zero et appliquer chaque tags un a un
+
       ResetDom(data) {
         this.allTags;
         this.result = [];
@@ -144,60 +165,48 @@ fetch("./recipes.json")
 
       searchWithTag() {
         this.allTags;
+        
+        let index = 0;
 
-        this.allTags.forEach((tag) => {
-          let data = this.result;
-          if (this.result.length == 0) {
-            data = this.recipes;
-          }
+        while (index <= this.allTags.length-1){
+             this.allTags.forEach((tag)=> {
+                let regexTag = new RegExp("("+tag+")+", "gi");
+                let data = this.result;
+                if (this.result.length == 0) {
+                  data = this.recipes;
+                }if(this.allTags.length == 1 && this.result.length > 0 && this.query == null){
+                  data = this.recipes;
+                }
+                 
+                this.result = data.filter(r => {
+                    const findWtag = r.ustensils.join(" ").match(regexTag) ||  r.ingredients.map(i => i.ingredient).join(" ").match(regexTag) ||r.appliance.match(regexTag) ;
+                    
+                    if(findWtag !== null){
+                
+                        return r;
+                    }
+                });
 
-          this.result = data.filter((r) => {
-            let appliances = [r.appliance];
-            let ustensils = [...r.ustensils];
-            let ingredients = r.ingredients.map(
-              (ingredients) => ingredients.ingredient
-            );
-            this.allTags;
+                this.ingredients = this.result.map((r) =>
+                r.ingredients.map((ingredients) =>
+                  ingredients.ingredient.toLowerCase()
+                )
+              );
+              this.ingredients = reduce(this.ingredients);
+    
+              this.appliances = this.result.map((r) => r.appliance);
+              this.appliances = new Set([...this.appliances]);
+              this.appliances = [...this.appliances];
+    
+              this.ustensils = this.result.map((u) => u.ustensils);
+              this.ustensils = reduce(this.ustensils);
+             });
+              
 
-            const result = [...appliances, ...ustensils, ...ingredients].some(
-              (i) => {
-                const z = i.toLowerCase() == tag.toLowerCase();
-                return z;
-              }
-            );
+            index++;
+        }
 
-            return result;
-          });
-
-          console.log(this.result);
-          console.log(this.allTags);
-
-          this.ingredients = this.result.map((r) =>
-            r.ingredients.map((ingredients) =>
-              ingredients.ingredient.toLowerCase()
-            )
-          );
-          this.ingredients = reduce(this.ingredients);
-          5;
-
-          this.appliances = this.result.map((r) => r.appliance);
-          this.appliances = new Set([...this.appliances]);
-          this.appliances = [...this.appliances];
-
-          this.ustensils = this.result.map((u) => u.ustensils);
-          this.ustensils = reduce(this.ustensils);
-          this.allTags.forEach((tag) => {
-            if (this.appliances.includes(tag)) {
-              this.appliances = this.appliances.filter((t) => t !== tag);
-            }
-            if (this.ustensils.includes(tag)) {
-              this.ustensils = this.ustensils.filter((t) => t !== tag);
-            }
-            if (this.ingredients.includes(tag)) {
-              this.ingredients = this.ingredients.filter((t) => t !== tag);
-            }
-          });
-        });
+     
       }
     }
 
@@ -215,7 +224,7 @@ fetch("./recipes.json")
     // Events Tags Ingredients
 
     advanceSearchByIngredients.addEventListener("input", (e) => {
-      const input = e.target.value.toLowerCase().trim();
+      const input = e.target.value.trim();
       const i = filter.ingredients;
       const result = filter.filterWithAdvancesdSearchBar(i, input);
 
@@ -255,7 +264,7 @@ fetch("./recipes.json")
                   filter.filterWithSearchBar(searchBar.value);
                   filter.searchWithTag();
                   renderResult(filter.result);
-                  console.log("X2");
+                
                 }
                 if (
                   tags.textContent.trim() === "" &&
@@ -264,7 +273,7 @@ fetch("./recipes.json")
                   filter.ResetDom("recipes");
                   filter.filterWithSearchBar(searchBar.value);
                   renderResult(filter.result);
-                  console.log("X3");
+                
                 }
 
                 if (
@@ -281,9 +290,9 @@ fetch("./recipes.json")
         });
     });
 
-    // Events Tags Ustensils
+     // Events Tags Ustensils
 
-    advanceSearchByUstensils.addEventListener("input", (e) => {
+     advanceSearchByUstensils.addEventListener("input", (e) => {
       const input = e.target.value.toLowerCase().trim();
       const u = filter.ustensils;
       const result = filter.filterWithAdvancesdSearchBar(u, input);
@@ -296,7 +305,7 @@ fetch("./recipes.json")
         .forEach((el) => {
           el.addEventListener("click", (e) => {
             const nameTag = e.target.textContent;
-            filter.addOrRemoveTag(nameTag);
+            filter.addOrRemoveTag(nameTag, searchBar.value);
             filter.searchWithTag();
             advanceSearchResultsUstensils.innerHTML = "";
             recipeCardTemplate.innerHTML = "";
@@ -323,7 +332,6 @@ fetch("./recipes.json")
                   filter.filterWithSearchBar(searchBar.value);
                   filter.searchWithTag();
                   renderResult(filter.result);
-                  console.log("X2");
                 }
                 if (
                   tags.textContent.trim() === "" &&
@@ -332,7 +340,6 @@ fetch("./recipes.json")
                   filter.ResetDom("recipes");
                   filter.filterWithSearchBar(searchBar.value);
                   renderResult(filter.result);
-                  console.log("X3");
                 }
 
                 if (
@@ -391,7 +398,7 @@ fetch("./recipes.json")
                   filter.filterWithSearchBar(searchBar.value);
                   filter.searchWithTag();
                   renderResult(filter.result);
-                  console.log("X2");
+                 
                 }
                 if (
                   tags.textContent.trim() === "" &&
@@ -400,7 +407,7 @@ fetch("./recipes.json")
                   filter.ResetDom("recipes");
                   filter.filterWithSearchBar(searchBar.value);
                   renderResult(filter.result);
-                  console.log("X3");
+                
                 }
 
                 if (
@@ -417,15 +424,21 @@ fetch("./recipes.json")
         });
     });
 
+
+
     searchBar.addEventListener("input", (e) => {
       const input = e.target.value.toLowerCase().trim();
-      filter.filterWithSearchBar(input);
-      filter.searchWithTag();
+
       setTimeout(() => {
-        if (input == searchBar.value) {
-          if (input.length >= 3 && filter.result.length > 0) {
+        if (input == searchBar.value.toLowerCase()) {
+           
+          if (input.length >= 3) {
+           
+            filter.filterWithSearchBar(input);
+            
             recipeCardTemplate.innerHTML = "";
             renderResult(filter.result);
+            
           } else if (filter.result.length <= 0 && input.length >= 3) {
             advanceSearchResultsAppliance.innerHTML = "";
             advanceSearchResultsIngredients.innerHTML = "";
@@ -436,7 +449,7 @@ fetch("./recipes.json")
             recipeCardTemplate.innerHTML = "";
             filter.searchWithTag();
             renderResult(filter.result);
-            console.log("applique tag");
+          
           } else if (input.length === 0) {
             filter.ResetDom("recipes");
             recipeCardTemplate.innerHTML = "";
@@ -479,9 +492,7 @@ fetch("./recipes.json")
             .forEach((el) => {
               el.addEventListener("click", (e) => {
                 const nameTag = e.target.textContent;
-                console.log();
-
-                filter.addOrRemoveTag(nameTag);
+                filter.addOrRemoveTag(nameTag, searchBar.value);
                 filter.searchWithTag();
                 advanceSearchResultsIngredients.innerHTML = "";
                 recipeCardTemplate.innerHTML = "";
@@ -497,7 +508,7 @@ fetch("./recipes.json")
                 tags.querySelectorAll(".tag").forEach((el) => {
                   el.addEventListener("click", () => {
                     const s = el.getAttribute("data-tag");
-                    filter.addOrRemoveTag(s);
+                    filter.addOrRemoveTag(s, searchBar.value);
                     filter.searchWithTag();
                     tags.removeChild(el);
                     recipeCardTemplate.innerHTML = "";
@@ -510,7 +521,7 @@ fetch("./recipes.json")
                       filter.filterWithSearchBar(searchBar.value);
                       filter.searchWithTag();
                       renderResult(filter.result);
-                      console.log("X2");
+                     
                     }
                     if (
                       tags.textContent.trim() === "" &&
@@ -519,7 +530,7 @@ fetch("./recipes.json")
                       filter.ResetDom("recipes");
                       filter.filterWithSearchBar(searchBar.value);
                       renderResult(filter.result);
-                      console.log("X3");
+                     
                     }
 
                     if (
@@ -595,7 +606,7 @@ fetch("./recipes.json")
             .forEach((el) => {
               el.addEventListener("click", (e) => {
                 const nameTag = e.target.textContent;
-                filter.addOrRemoveTag(nameTag);
+                filter.addOrRemoveTag(nameTag,);
                 filter.searchWithTag();
                 advanceSearchResultsAppliance.innerHTML = "";
                 advanceSearchByAppliance.value = "";
@@ -624,7 +635,6 @@ fetch("./recipes.json")
                       filter.filterWithSearchBar(searchBar.value);
                       filter.searchWithTag();
                       renderResult(filter.result);
-                      console.log("X2");
                     }
                     if (
                       tags.textContent.trim() === "" &&
@@ -633,7 +643,7 @@ fetch("./recipes.json")
                       filter.ResetDom("recipes");
                       filter.filterWithSearchBar(searchBar.value);
                       renderResult(filter.result);
-                      console.log("X3");
+                     
                     }
 
                     if (
@@ -711,6 +721,7 @@ fetch("./recipes.json")
                 const nameTag = e.target.textContent;
                 filter.addOrRemoveTag(nameTag);
                 filter.searchWithTag();
+
                 advanceSearchResultsUstensils.innerHTML = "";
                 recipeCardTemplate.innerHTML = "";
                 advanceSearchByUstensils.value = "";
@@ -730,6 +741,7 @@ fetch("./recipes.json")
                     tags.removeChild(el);
                     recipeCardTemplate.innerHTML = "";
                     renderResult(filter.result);
+                    
                     if (
                       tags.childElementCount > 0 &&
                       searchBar.value.length > 3
@@ -738,7 +750,6 @@ fetch("./recipes.json")
                       filter.filterWithSearchBar(searchBar.value);
                       filter.searchWithTag();
                       renderResult(filter.result);
-                      console.log("X2");
                     }
                     if (
                       tags.textContent.trim() === "" &&
@@ -747,7 +758,7 @@ fetch("./recipes.json")
                       filter.ResetDom("recipes");
                       filter.filterWithSearchBar(searchBar.value);
                       renderResult(filter.result);
-                      console.log("X3");
+                     
                     }
 
                     if (
@@ -839,3 +850,6 @@ function open(button, input, container, icon) {
   container.classList.replace("close", "open");
   icon.classList.replace("bi-chevron-down", "bi-chevron-up");
 }
+
+
+   
