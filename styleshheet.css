@@ -67,6 +67,9 @@ header{
     font-size: 18px;
     font-family: "lato_regular"!important;
   }
+  #search_bar:placeholder-shown{
+    text-overflow: ellipsis;
+  }
   
   .search_button{
     background-color: #E7E7E7 !important;
@@ -182,8 +185,8 @@ header{
     position: static !important;
     background: transparent !important;
     border:none !important;
-      max-height: 350px;
-      font-family: "lato_light";
+      max-height: 310px;
+      font-family: "lato_regular";
       margin : 0;
       padding: 0;
       overflow: hidden;
@@ -195,8 +198,14 @@ header{
       margin-top: 10px;
       color: white;
       float: left;
-      width: 50%;
+      width: 33%;
+      overflow: hidden;
   }
+  .add_tag::first-letter{
+    text-transform: uppercase;
+
+  }
+
 
   #tags{
     display: flex;
@@ -208,12 +217,24 @@ header{
 
   .tag{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    width: 107px;
+    width: 110px;
     height: 37px;
     border-radius: 5px;
     color: white;
+    font-size: 14px;
+    margin-right: 1%;
+  }
+  .tag > span{
+    overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis; 
+      margin: 5%;
+  }
+  .bi-x-circle{
+    text-align: right;
+    margin-right: 5%;
   }
 
   .tag_i{
