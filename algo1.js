@@ -32,7 +32,7 @@ fetch("./recipes.json")
   .then((recipesJSON) => {
     const data = recipesJSON.recipes;
 
-// INTRAGTION DATA DANS UNE CLASS
+    // INTRAGTION DATA DANS UNE CLASS
 
     class Filter {
       constructor(data) {
@@ -45,7 +45,7 @@ fetch("./recipes.json")
         this.result = [];
       }
 
-  // CALCUL VALEUR DEFAULT INGREDIENTS USTENSILS ET APPAREIL
+      // CALCUL VALEUR DEFAULT INGREDIENTS USTENSILS ET APPAREIL
 
       get i() {
         let i = this.recipes.map((r) =>
@@ -80,7 +80,7 @@ fetch("./recipes.json")
         return [...this.tags];
       }
 
-   //FILTRE NOM DESCRIPTION ET NOM PAR RAPPORT A INPUT
+      //FILTRE NOM DESCRIPTION ET NOM PAR RAPPORT A INPUT
 
       filterWithSearchBar(query) {
         console.time("filterWithSearchBar");
@@ -132,11 +132,10 @@ fetch("./recipes.json")
 
       addOrRemoveTag(tagName) {
         this.allTags;
-        console.log(tagName, this.allTags, this.tags);
+
         if (this.allTags.includes(tagName)) {
           this.tags = this.tags.filter((t) => t !== tagName);
           this.allTags;
-          console.log("remove " + this.allTags);
 
           if (this.allTags.length == 0) this.allTags;
           this.result = [];
@@ -149,7 +148,7 @@ fetch("./recipes.json")
       }
 
       // REMISE AU VALEUR PAR DEFAULT
-      
+
       ResetDom(data) {
         this.allTags;
         this.result = [];
@@ -219,7 +218,7 @@ fetch("./recipes.json")
       }
     }
 
-     // INITIALISATION OBJET
+    // INITIALISATION OBJET
 
     const filter = new Filter(data);
 
@@ -234,12 +233,12 @@ fetch("./recipes.json")
 
     renderResult(filter.recipes);
 
-       /*
-    ** EVENTS DROPDOWM
-    * déclanche à l'input et applique methode sur la liste selectionner
-    * créer nouvel element de la liste disponible
-    *  gère les evenements au click sur les tags
-    */
+    /*
+     ** EVENTS DROPDOWM
+     * déclanche à l'input et applique methode sur la liste selectionner
+     * créer nouvel element de la liste disponible
+     *  gère les evenements au click sur les tags
+     */
 
     // DROPDOWN INGREDIENTS
 
@@ -350,7 +349,6 @@ fetch("./recipes.json")
                   filter.filterWithSearchBar(searchBar.value);
                   filter.searchWithTag();
                   renderResult(filter.result);
-                  console.log("X2");
                 }
                 if (
                   tags.textContent.trim() === "" &&
@@ -359,7 +357,6 @@ fetch("./recipes.json")
                   filter.ResetDom("recipes");
                   filter.filterWithSearchBar(searchBar.value);
                   renderResult(filter.result);
-                  console.log("X3");
                 }
 
                 if (
@@ -418,7 +415,6 @@ fetch("./recipes.json")
                   filter.filterWithSearchBar(searchBar.value);
                   filter.searchWithTag();
                   renderResult(filter.result);
-                  console.log("X2");
                 }
                 if (
                   tags.textContent.trim() === "" &&
@@ -427,7 +423,6 @@ fetch("./recipes.json")
                   filter.ResetDom("recipes");
                   filter.filterWithSearchBar(searchBar.value);
                   renderResult(filter.result);
-                  console.log("X3");
                 }
 
                 if (
@@ -444,13 +439,13 @@ fetch("./recipes.json")
         });
     });
 
-        /*
-    ** EVENT BARRE DE RECHERCHE PRINCIPALE
-    * se déclanche au remplissage du champ, toutes le 300 ms et si le champ est différent 
-    * déclanche à l'input et applique la méthode de trie par le nom , description et ingredients
-    * conditions qui exécute le code  en fonction du résultat trouvé
-    * 
-    */
+    /*
+     ** EVENT BARRE DE RECHERCHE PRINCIPALE
+     * se déclanche au remplissage du champ, toutes le 300 ms et si le champ est différent
+     * déclanche à l'input et applique la méthode de trie par le nom , description et ingredients
+     * conditions qui exécute le code  en fonction du résultat trouvé
+     *
+     */
 
     searchBar.addEventListener("input", (e) => {
       const input = e.target.value.toLowerCase().trim();
@@ -471,7 +466,6 @@ fetch("./recipes.json")
             recipeCardTemplate.innerHTML = "";
             filter.searchWithTag();
             renderResult(filter.result);
-            console.log("applique tag");
           } else if (input.length === 0) {
             filter.ResetDom("recipes");
             recipeCardTemplate.innerHTML = "";
@@ -481,12 +475,12 @@ fetch("./recipes.json")
       }, 300);
     });
 
-         /*
-    ** EVENTS DROPDOWM ON CLIK
-    * Ouvre et ferme les dropdowns
-    * creer les elements des listes dans le DOM
-    * gère les evenements au click sur les tags
-    */
+    /*
+     ** EVENTS DROPDOWM ON CLIK
+     * Ouvre et ferme les dropdowns
+     * creer les elements des listes dans le DOM
+     * gère les evenements au click sur les tags
+     */
 
     function createTagsList(triggerI, triggerA, triggerU) {
       triggerI.addEventListener("click", () => {
@@ -521,7 +515,6 @@ fetch("./recipes.json")
             .forEach((el) => {
               el.addEventListener("click", (e) => {
                 const nameTag = e.target.textContent;
-                console.log();
 
                 filter.addOrRemoveTag(nameTag);
                 filter.searchWithTag();
@@ -552,7 +545,6 @@ fetch("./recipes.json")
                       filter.filterWithSearchBar(searchBar.value);
                       filter.searchWithTag();
                       renderResult(filter.result);
-                      console.log("X2");
                     }
                     if (
                       tags.textContent.trim() === "" &&
@@ -561,7 +553,6 @@ fetch("./recipes.json")
                       filter.ResetDom("recipes");
                       filter.filterWithSearchBar(searchBar.value);
                       renderResult(filter.result);
-                      console.log("X3");
                     }
 
                     if (
@@ -666,7 +657,6 @@ fetch("./recipes.json")
                       filter.filterWithSearchBar(searchBar.value);
                       filter.searchWithTag();
                       renderResult(filter.result);
-                      console.log("X2");
                     }
                     if (
                       tags.textContent.trim() === "" &&
@@ -675,7 +665,6 @@ fetch("./recipes.json")
                       filter.ResetDom("recipes");
                       filter.filterWithSearchBar(searchBar.value);
                       renderResult(filter.result);
-                      console.log("X3");
                     }
 
                     if (
@@ -780,7 +769,6 @@ fetch("./recipes.json")
                       filter.filterWithSearchBar(searchBar.value);
                       filter.searchWithTag();
                       renderResult(filter.result);
-                      console.log("X2");
                     }
                     if (
                       tags.textContent.trim() === "" &&
@@ -789,7 +777,6 @@ fetch("./recipes.json")
                       filter.ResetDom("recipes");
                       filter.filterWithSearchBar(searchBar.value);
                       renderResult(filter.result);
-                      console.log("X3");
                     }
 
                     if (
@@ -834,7 +821,7 @@ function reduce(t) {
   return t;
 }
 
-// CREER CARD 
+// CREER CARD
 
 function renderCards(el) {
   return (recipeCardTemplate.innerHTML += `

@@ -177,8 +177,8 @@ fetch("./recipes.json")
           this.tags.push(tagName);
         }
       }
-      
-     // REMISE AU VALEUR PAR DEFAULT
+
+      // REMISE AU VALEUR PAR DEFAULT
 
       ResetDom(data) {
         this.allTags;
@@ -189,7 +189,7 @@ fetch("./recipes.json")
         this.u;
       }
 
-    //FILTRE DATA CONTIENT TAG SELECTIONNER
+      //FILTRE DATA CONTIENT TAG SELECTIONNER
 
       searchWithTag() {
         console.time("searchtag");
@@ -229,7 +229,7 @@ fetch("./recipes.json")
                 return r;
               }
             });
-            console.log(this.result);
+
             if (this.result.length > 1) {
               this.ingredients = this.result.map((r) =>
                 r.ingredients.map((ingredients) =>
@@ -281,14 +281,13 @@ fetch("./recipes.json")
     renderResult(filter.recipes);
 
     /*
-    ** EVENTS DROPDOWM
-    * déclanche à l'input et applique methode sur la liste selectionner
-    * créer nouvel element de la liste disponible
-    *  gère les evenements au click sur les tags
-    */
+     ** EVENTS DROPDOWM
+     * déclanche à l'input et applique methode sur la liste selectionner
+     * créer nouvel element de la liste disponible
+     *  gère les evenements au click sur les tags
+     */
 
-
-  // DROPDOWN INGREDIENTS
+    // DROPDOWN INGREDIENTS
 
     advanceSearchByIngredients.addEventListener("input", (e) => {
       const input = e.target.value.trim();
@@ -489,12 +488,12 @@ fetch("./recipes.json")
     });
 
     /*
-    ** EVENT BARRE DE RECHERCHE PRINCIPALE
-    * se déclanche au remplissage du champ, toutes le 300 ms et si le champ est différent 
-    * déclanche à l'input et applique la méthode de trie par le nom , description et ingredients
-    * conditions qui exécute le code  en fonction du résultat trouvé
-    * 
-    */
+     ** EVENT BARRE DE RECHERCHE PRINCIPALE
+     * se déclanche au remplissage du champ, toutes le 300 ms et si le champ est différent
+     * déclanche à l'input et applique la méthode de trie par le nom , description et ingredients
+     * conditions qui exécute le code  en fonction du résultat trouvé
+     *
+     */
 
     searchBar.addEventListener("input", (e) => {
       const input = e.target.value.toLowerCase().trim();
@@ -505,7 +504,7 @@ fetch("./recipes.json")
             filter.filterWithSearchBar(input);
             recipeCardTemplate.innerHTML = "";
             renderResult(filter.result);
-            console.log(filter.result);
+
             if (tags.childElementCount > 0) {
               filter.searchWithTag();
               renderResult(filter.result);
@@ -531,12 +530,12 @@ fetch("./recipes.json")
       }, 300);
     });
 
-      /*
-    ** EVENTS DROPDOWM ON CLIK
-    * Ouvre et ferme les dropdowns
-    * creer les elements des listes dans le DOM
-    * gère les evenements au click sur les tags
-    */
+    /*
+     ** EVENTS DROPDOWM ON CLIK
+     * Ouvre et ferme les dropdowns
+     * creer les elements des listes dans le DOM
+     * gère les evenements au click sur les tags
+     */
 
     function createTagsList(triggerI, triggerA, triggerU) {
       triggerI.addEventListener("click", () => {
@@ -881,7 +880,7 @@ function reduce(t) {
   return t;
 }
 
-// CREER CARD 
+// CREER CARD
 
 function renderCards(el) {
   return (recipeCardTemplate.innerHTML += `
