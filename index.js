@@ -32,6 +32,8 @@ fetch("./recipes.json")
   .then((recipesJSON) => {
     const data = recipesJSON.recipes;
 
+    // INTRAGTION DATA DANS UNE CLASS
+
     class Filter {
       constructor(data) {
         this.recipes = data;
@@ -43,6 +45,9 @@ fetch("./recipes.json")
         this.result = [];
         this.testresult = [];
       }
+
+      // CALCUL VALEUR DEFAULT INGREDIENTS USTENSILS ET APPAREIL
+
       get i() {
         let i = this.recipes.map((r) =>
           r.ingredients.map((ingredients) =>
@@ -78,6 +83,8 @@ fetch("./recipes.json")
       get allTags() {
         return [...this.tags];
       }
+
+      //FILTRE NOM DESCRIPTION ET NOM PAR RAPPORT A INPUT
 
       filterWithSearchBar(query) {
         console.time("filterWithSearchBar");
@@ -137,6 +144,8 @@ fetch("./recipes.json")
         }
       }
 
+      // FILTRE CONTENU DU DROPDOWN PAR RAPPORT A INPUT
+
       filterWithAdvancesdSearchBar(arr, requete) {
         console.time("advancedsearchbar");
         let regexrequete = new RegExp("(" + requete + ")", "gi");
@@ -149,6 +158,8 @@ fetch("./recipes.json")
         console.timeEnd("advancedsearchbar");
         return resultatRequete;
       }
+
+      // D'AJOUT OU RETRAIT DE TAG
 
       addOrRemoveTag(tagName) {
         this.allTags;
@@ -166,6 +177,8 @@ fetch("./recipes.json")
           this.tags.push(tagName);
         }
       }
+      
+     // REMISE AU VALEUR PAR DEFAULT
 
       ResetDom(data) {
         this.allTags;
@@ -175,6 +188,8 @@ fetch("./recipes.json")
         this.i;
         this.u;
       }
+
+    //FILTRE DATA CONTIENT TAG SELECTIONNER
 
       searchWithTag() {
         console.time("searchtag");
@@ -250,7 +265,11 @@ fetch("./recipes.json")
       }
     }
 
+    // INITIALISATION OBJET
+
     const filter = new Filter(data);
+
+    // CREATION RENDU DOM PAR DEFAULT
 
     function renderResult(x) {
       recipeCardTemplate.innerHTML = "";
@@ -261,7 +280,15 @@ fetch("./recipes.json")
 
     renderResult(filter.recipes);
 
-    // Events Tags Ingredients
+    /*
+    ** EVENTS DROPDOWM
+    * déclanche à l'input et applique methode sur la liste selectionner
+    * créer nouvel element de la liste disponible
+    *  gère les evenements au click sur les tags
+    */
+
+
+  // DROPDOWN INGREDIENTS
 
     advanceSearchByIngredients.addEventListener("input", (e) => {
       const input = e.target.value.trim();
@@ -328,7 +355,7 @@ fetch("./recipes.json")
         });
     });
 
-    // Events Tags Ustensils
+    // DROPDOMW USTENSILS
 
     advanceSearchByUstensils.addEventListener("input", (e) => {
       const input = e.target.value.toLowerCase().trim();
@@ -395,7 +422,7 @@ fetch("./recipes.json")
         });
     });
 
-    // Events Tags Appliances
+    // DROPDOWN APPAREIL
 
     advanceSearchByAppliance.addEventListener("input", (e) => {
       const input = e.target.value.toLowerCase().trim();
@@ -461,6 +488,14 @@ fetch("./recipes.json")
         });
     });
 
+    /*
+    ** EVENT BARRE DE RECHERCHE PRINCIPALE
+    * se déclanche au remplissage du champ, toutes le 300 ms et si le champ est différent 
+    * déclanche à l'input et applique la méthode de trie par le nom , description et ingredients
+    * conditions qui exécute le code  en fonction du résultat trouvé
+    * 
+    */
+
     searchBar.addEventListener("input", (e) => {
       const input = e.target.value.toLowerCase().trim();
 
@@ -495,6 +530,13 @@ fetch("./recipes.json")
         }
       }, 300);
     });
+
+      /*
+    ** EVENTS DROPDOWM ON CLIK
+    * Ouvre et ferme les dropdowns
+    * creer les elements des listes dans le DOM
+    * gère les evenements au click sur les tags
+    */
 
     function createTagsList(triggerI, triggerA, triggerU) {
       triggerI.addEventListener("click", () => {
@@ -828,6 +870,8 @@ fetch("./recipes.json")
 
 //END CODE
 
+// REDUIT LES TABLEAU
+
 function reduce(t) {
   t = t.reduce(function (a, b) {
     return [...a, ...b];
@@ -836,6 +880,8 @@ function reduce(t) {
   t = [...t];
   return t;
 }
+
+// CREER CARD 
 
 function renderCards(el) {
   return (recipeCardTemplate.innerHTML += `
@@ -873,6 +919,8 @@ function renderCards(el) {
   `);
 }
 
+// FERME DROPDOWN
+
 function close(button, input, container, icon) {
   button.style.display = "block";
   input.style.width = "0px";
@@ -880,12 +928,16 @@ function close(button, input, container, icon) {
   icon.classList.replace("bi-chevron-up", "bi-chevron-down");
 }
 
+//OUVRE DROPDOWN
+
 function open(button, input, container, icon) {
   button.style.display = "none";
   input.style.width = "220px";
   container.classList.replace("close", "open");
   icon.classList.replace("bi-chevron-down", "bi-chevron-up");
 }
+
+//FERME TOUS LES DROPDOWN  ON FOUCUS SUR BARRE DE RECHERCHE PRINCIPALE
 
 searchBar.addEventListener("focus", () => {
   close(
