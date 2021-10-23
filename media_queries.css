@@ -1,0 +1,84 @@
+@media screen and (max-width: 374px) {
+  .recipe_name {
+    width: 70%;
+    font-size: 14px;
+  }
+  .icon-clock {
+    font-size: 14px;
+  }
+  #select_ingredients,
+  #select_appareil,
+  #select_ustensils {
+    width: 93%;
+  }
+}
+@media screen and (max-width: 767px) {
+  #tags {
+    height: auto;
+
+    flex-wrap: wrap;
+  }
+  .tag {
+    width: 40%;
+    margin: 2%;
+    margin-left: 0;
+  }
+  .advance_search_results {
+    max-height: 330px;
+  }
+  .advance_search_results > li {
+    width: 49%;
+    white-space: normal;
+    text-overflow: ellipsis;
+  }
+  #buttons_container {
+    width: 100%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button_select {
+    width: 94%;
+    margin: 0;
+    padding: 2%;
+  }
+  #select_ingredients,
+  #select_appareil {
+    margin-right: 0;
+    margin-bottom: 4%;
+  }
+  #select_ustensils {
+    position: relative;
+    top: 160px;
+    z-index: 2;
+  }
+  #select_appareil {
+    position: absolute;
+    top: 80px;
+    z-index: 4;
+  }
+  #select_ingredients {
+    position: absolute;
+    z-index: 5;
+  }
+  #recipes_wrap {
+    margin-top: 270px;
+    justify-content: center;
+  }
+  .card_custom {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .card_custom {
+    width: 330px;
+  }
+  .recipe_name {
+    font-size: 16px;
+  }
+  .icon-clock {
+    font-size: 16px;
+  }
+}
