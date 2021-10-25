@@ -126,7 +126,7 @@ fetch("./recipes.json")
 
           currentIndex++;
         }
-
+        console.timeEnd("filterWithSearchBar");
         if (this.result.length > 0) {
           this.ingredients = this.result.map((r) =>
             r.ingredients.map((ingredients) =>
