@@ -87,7 +87,7 @@ fetch("./recipes.json")
         this.query = query;
 
         let data = this.result;
-        if (this.result.length == 0) {
+        if (this.result.length == 0 || this.query != searchBar.value) {
           data = this.recipes;
         }
 
@@ -99,7 +99,7 @@ fetch("./recipes.json")
               i.ingredient.toLowerCase().includes(query)
             )
         );
-
+        console.log(this.result, this.query)
         if (this.result.length > 0) {
           this.ingredients = this.result.map((r) =>
             r.ingredients.map((ingredients) =>

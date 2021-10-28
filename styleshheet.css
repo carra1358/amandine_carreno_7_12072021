@@ -198,6 +198,7 @@ position: absolute;
     color: white;
     float: left;
     width: 33%;
+    white-space: normal;
     overflow: hidden;
 }
 .add_tag::first-letter{
