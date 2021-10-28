@@ -51,6 +51,10 @@ main{
   margin-top:5%;
 }
 
+#groupe_barre_de_recherche{
+  width: 97%;
+}
+
 #search_bar{
   background-color: #E7E7E7;
   border: none;
@@ -90,6 +94,7 @@ main{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 65%;
   border-radius: 5px; 
   font-size: 18px;
   font-family: "lato_bold"!important; 
@@ -200,6 +205,7 @@ position: absolute;
     width: 33%;
     white-space: normal;
     overflow: hidden;
+    text-overflow: ellipsis; 
 }
 .add_tag::first-letter{
   text-transform: uppercase;
@@ -270,8 +276,6 @@ position: absolute;
   z-index: 1;
   flex-direction: row;
   flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: space-between;
 }
 
 .card_custom{
@@ -334,4 +338,7 @@ ul{
 
 .invisible{
 visibility: hidden;
+}
+.card_space{
+  margin-right: 4%;
 }

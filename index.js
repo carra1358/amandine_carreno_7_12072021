@@ -99,7 +99,7 @@ fetch("./recipes.json")
               i.ingredient.toLowerCase().includes(query)
             )
         );
-        console.log(this.result, this.query)
+        console.log(this.result)
         if (this.result.length > 0) {
           this.ingredients = this.result.map((r) =>
             r.ingredients.map((ingredients) =>
@@ -825,7 +825,7 @@ function reduce(t) {
 
 function renderCards(el) {
   return (recipeCardTemplate.innerHTML += `
-  
+  <span class="card_space">
      <div class="card card_custom">
     <div class="card-img-top img_custom"></div>
     <div class="card-body">
@@ -856,6 +856,7 @@ function renderCards(el) {
     </div>
   
   </div>
+  </span>
   `);
 }
 
