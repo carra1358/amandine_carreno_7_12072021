@@ -1,318 +1,335 @@
 @font-face {
-    font-family: "dm_sans";
-    font-style: normal;
-    font-weight: bold;
-    src: url("assets/fonts/dm_sans/DMSans-Bold.ttf");
+  font-family: "dm_sans";
+  font-style: normal;
+  font-weight: bold;
+  src: url("assets/fonts/dm_sans/DMSans-Bold.ttf");
 }
 
 @font-face {
-    font-family: "roboto";
-    font-style: normal;
-    font-weight: normal;
-    src: url("assets/fonts/roboto/Roboto-Regular.ttf");
+  font-family: "roboto";
+  font-style: normal;
+  font-weight: normal;
+  src: url("assets/fonts/roboto/Roboto-Regular.ttf");
 }
 
 @font-face {
-    font-family: "lato_regular";
-    font-style: normal;
-    font-weight: normal;
-    src: url("assets/fonts/lato/Lato-Regular.ttf");
+  font-family: "lato_regular";
+  font-style: normal;
+  font-weight: normal;
+  src: url("assets/fonts/lato/Lato-Regular.ttf");
 }
 
 @font-face {
-    font-family: "lato_bold";
-    font-style: normal;
-    font-weight: bold;
-    src: url("assets/fonts/lato/Lato-Bold.ttf");
+  font-family: "lato_bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url("assets/fonts/lato/Lato-Bold.ttf");
 }
 
 @font-face {
-    font-family: "lato_light";
-    font-style: normal;
-    font-weight: lighter;
-    src: url("assets/fonts/lato/Lato-Light.ttf");
+  font-family: "lato_light";
+  font-style: normal;
+  src: url("assets/fonts/lato/Lato-Light.ttf");
 }
 
-@import url("stylesheet.scss");
+
 
 header{
-    margin-top: 2%;
-  }
-  .title {
-    font-family: "dm_sans";
-    color: #D04F4F;
-  }
-  
-  .icon_title{
-    color: #D04F4F;
-    font-size:42px;
-  }
-  
-  main{
-    margin-top:5%;
-  }
-  
-  #search_bar{
-    background-color: #E7E7E7;
-    border: none;
-  }
-  
-  #search_bar:focus, #search_bar:active {
-    box-shadow : none;
-  }
-  
-  #search_bar::placeholder{
-    color: black;
-    opacity: 25%;
-    font-size: 18px;
-    font-family: "lato_regular"!important;
-  }
-  
-  .search_button{
-    background-color: #E7E7E7 !important;
-    border: none !important;
-    
-  }
-  
-  .text-icon{
-    color: blacK;
-    font-size: 18px;
-  }
-  
-  #search_and_select{
-    margin-top:2%;
-  }
-  
-  .button_select{
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 5px; 
-    font-size: 18px;
-    font-family: "lato_bold"!important; 
-    padding: 2%;
-    z-index: 2;
-  }
+  margin-top: 2%;
+}
+.title {
+  font-family: "dm_sans";
+  color: #D04F4F;
+}
 
-  .button_select > span{
-    display: flex;
-    justify-content: space-between;
-    
-  }
+.icon_title{
+  color: #D04F4F;
+  font-size:42px;
+}
 
- 
+main{
+  margin-top:5%;
+}
 
-  .icon_btn {
-   -webkit-text-stroke: 2px;
-   background-color: transparent;
-   border: none;
-   color: white;
+#search_bar{
+  background-color: #E7E7E7;
+  border: none;
+}
 
-  }
+#search_bar:focus, #search_bar:active {
+  box-shadow : none;
+}
+
+#search_bar::placeholder{
+  color: black;
+  opacity: 25%;
+  font-size: 18px;
+  font-family: "lato_regular"!important;
+}
+#search_bar:placeholder-shown{
+  text-overflow: ellipsis;
+}
+
+.search_button{
+  background-color: #E7E7E7 !important;
+  border: none !important;
   
-  .search_and_select_buttons {
-      background-color: transparent;
-      border-style: none;
-      color: white;
-      width: 0;
-  }
+}
 
-  #buttons_container{
-  width: 88%;
+.text-icon{
+  color: blacK;
+  font-size: 18px;
+}
+
+#search_and_select{
+  margin-top:2%;
+}
+
+.button_select{
+  color: white;
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  padding: 0;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px; 
+  font-size: 18px;
+  font-family: "lato_bold"!important; 
+  padding: 2%;
   z-index: 2;
-  position: absolute;
-  }
+}
 
-  .top_button{
-    display: flex;
-    flex-direction: row;
-  }
-
-  .button{
-    background-color: transparent;
-    font-family: "lato_bold"!important;
-    color: white;
-    font-size: 18px;
-    box-shadow: none;
-    border: none;
-  }
-
-  .search_and_select_buttons::placeholder{
-    font-family: "lato_bold"!important;
-    color: white;
-    font-size: 18px;
-   opacity: 50%;
+.button_select > span{
+  display: flex;
+  justify-content: space-between;
+  
 }
 
 
-  .search_and_select_buttons:focus{
-      outline: none;
-  }
-  
-  #select_ingredients{
-    cursor: pointer;
-    background-color:#3282F7;
-    white-space: nowrap;
+
+.icon_btn {
+ -webkit-text-stroke: 2px;
+ background-color: transparent;
+ border: none;
+ color: white;
+
+}
+
+.search_and_select_buttons {
+    background-color: transparent;
+    border-style: none;
     color: white;
-    margin-right: 2%;
-    border: none;
-  }
+    width: 0;
+}
 
-  
-  
-  #select_appareil{
-    cursor: pointer;
-    background-color:#68D9A4;
-    margin-right: 2%;
-  }
-  
-  #select_ustensils{
-    cursor: pointer;
-     background-color:#ED6454;
-  }
+#buttons_container{
+width: 88%;
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+padding: 0;
+z-index: 2;
+position: absolute;
+}
+
+.top_button{
+  display: flex;
+  flex-direction: row;
+}
+
+.button{
+  background-color: transparent;
+  font-family: "lato_bold"!important;
+  color: white;
+  font-size: 18px;
+  box-shadow: none;
+  border: none;
+}
+
+.search_and_select_buttons::placeholder{
+  font-family: "lato_bold"!important;
+  color: white;
+  font-size: 18px;
+ opacity: 50%;
+}
 
 
- 
-  .advance_search_results{
-    position: static !important;
-    background: transparent !important;
-    border:none !important;
-      max-height: 350px;
-      font-family: "lato_light";
-      margin : 0;
-      padding: 0;
-      overflow: hidden;
-  }
+.search_and_select_buttons:focus{
+    outline: none;
+}
 
-  .advance_search_results > li {
-    display: inline;
-    font-family: "lato_bold"!important;
-      margin-top: 10px;
-      color: white;
-      float: left;
-      width: 50%;
-  }
+#select_ingredients{
+  cursor: pointer;
+  background-color:#3282F7;
+  white-space: nowrap;
+  color: white;
+  margin-right: 2%;
+  border: none;
+}
 
-  #tags{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+
+
+#select_appareil{
+  cursor: pointer;
+  background-color:#68D9A4;
+  margin-right: 2%;
+}
+
+#select_ustensils{
+  cursor: pointer;
+   background-color:#ED6454;
+}
+
+
+
+.advance_search_results{
+  position: static !important;
+  background: transparent !important;
+  border:none !important;
+    max-height: 310px;
+    font-family: "lato_regular";
+    margin : 0;
     padding: 0;
-    height: 40px;
-  }
+    overflow: hidden;
+}
 
-  .tag{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 107px;
-    height: 37px;
-    border-radius: 5px;
+.advance_search_results > li {
+  display: inline;
+  font-family: "lato_bold"!important;
+    margin-top: 10px;
     color: white;
-  }
+    float: left;
+    width: 33%;
+    overflow: hidden;
+}
+.add_tag::first-letter{
+  text-transform: uppercase;
 
-  .tag_i{
-    background-color: #3282F7;
-  }
-
-  .tag_a{
-    background-color:#68D9A4
-  }
-
-  .tag_u{
-    background-color:#ED6454;
-  }
-
-  
-  
-
- .open{
-   height: auto;
- }
-
-  
- .close{
-   height: 69px;
- }
+}
 
 
+#tags{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0;
+  height: 40px;
+}
+
+.tag{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110px;
+  height: 37px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  margin-right: 1%;
+}
+.tag > span{
+  overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+    margin: 5%;
+}
+.bi-x-circle{
+  text-align: right;
+  margin-right: 5%;
+}
+
+.tag_i{
+  background-color: #3282F7;
+}
+
+.tag_a{
+  background-color:#68D9A4
+}
+
+.tag_u{
+  background-color:#ED6454;
+}
+
+
+
+
+.open{
+ height: auto;
+}
+
+
+.close{
+ height: 69px;
+}
+
+
+
+#recipes_wrap{
+  width: 100%;
+  display: flex;
+  margin-top: 150px;
+  z-index: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-between;
+}
+
+.card_custom{
+  padding: 0 !important;
+  font-family:"lato_regular";
+  margin-bottom: 5%;
+  padding-left:1%;
+  padding-right: 1%; 
+   background-color:#E7E7E7 !important;
+   border: none !important;
+   width: 380px;
+}
+
+.img_custom{
+  width: 100%;
+  height:178px;
+  background-color:#C7BEBE; 
+}
+
+.card_title {
+ display: flex;
+ justify-content: space-between;
+ font-size: 18px;
+ margin: 0 !important;
+ width: 100%;
+}
+
+.recipe_name{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 210px;
+}
+
+.minute{
+  margin-left: 7px;
+  font-style: normal;
+}
+
+ul{
+ list-style: none; 
+}
+
+#card_content {
+  font-size: 12px;
+  margin-top:20px;
+  height: 171px;
  
-  #recipes_wrap{
-    width: 100%;
-    display: flex;
-    margin-top: 150px;
-    z-index: 1;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content: space-between;
-  }
-  
-  .card_custom{
-    padding: 0 !important;
-    font-family:"lato_regular";
-    margin-bottom: 5%;
-    padding-left:1%;
-    padding-right: 1%; 
-     background-color:#E7E7E7 !important;
-     border: none !important;
-     width: 380px;
-  }
-  
-  .img_custom{
-    width: 100%;
-    height:178px;
-    background-color:#C7BEBE; 
-  }
-  
-  .card_title {
-   display: flex;
-   justify-content: space-between;
-   font-size: 18px;
-   margin: 0 !important;
-   width: 100%;
-  }
+}
 
-  .recipe_name{
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      width: 210px;
-  }
-  
-  .minute{
-    margin-left: 7px;
-    font-style: normal;
-  }
-  
-  ul{
-   list-style: none; 
-  }
-  
-  #card_content {
-    font-size: 12px;
-    margin-top:20px;
-    height: 171px;
-   
-  }
-  
-  #card_content:nth-child{
-    width: 50%;
-  }
 
-  #text_in_card{
-      text-align: justify;
-      max-height: 95%;
-      display: -webkit-box;   
-      -webkit-line-clamp: 9;   
-      -webkit-box-orient: vertical;     
-      overflow: hidden;
-  }
+#text_in_card{
+    text-align: justify;
+    max-height: 95%;
+    display: -webkit-box;   
+    -webkit-line-clamp: 9;   
+    -webkit-box-orient: vertical;     
+    overflow: hidden;
+}
 
 .invisible{
 visibility: hidden;
