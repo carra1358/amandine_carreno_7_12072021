@@ -63,6 +63,8 @@
     position: absolute;
     z-index: 5;
   }
+
+
   #recipes_wrap {
     margin-top: 270px;
     justify-content: center;
@@ -80,5 +82,11 @@
   }
   .icon-clock {
     font-size: 16px;
+  }
+
+  .advance_search_results > li {
+    width: 49%;
+    white-space: normal;
+    text-overflow: ellipsis;
   }
 }
